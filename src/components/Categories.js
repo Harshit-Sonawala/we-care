@@ -18,7 +18,7 @@ const Categories = () => {
                     <h2 className='heading-type3'>Categories:</h2>
                 </div>
                 <div className='category-container'>
-                    <CategoryCard title={'Cleaning & Disinfection'} bgImg={cleaningImg}/>
+                    <CategoryCard title={'Cleaning'} bgImg={cleaningImg}/>
                     <CategoryCard title={'Electricians'} bgImg={electricianImg}/>
                     <CategoryCard title={'Plumbers'} bgImg={plumberImg}/>
                     <CategoryCard title={'Carpenters'} bgImg={carpenterImg}/>

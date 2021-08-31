@@ -7,22 +7,22 @@ Monaco
 */
 
 @font-face {
-  font-family: 'Google Sans';
-  src: url('./assets/fonts/ProductSans-Regular.ttf');
+  font-family: "Google Sans";
+  src: url("./assets/fonts/ProductSans-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat';
-  src: url('./assets/fonts/Montserrat-Regular.ttf');
+  font-family: "Montserrat";
+  src: url("./assets/fonts/Montserrat-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Montserrat Light';
-  src: url('./assets/fonts/Montserrat-Light.ttf');
+  font-family: "Montserrat Light";
+  src: url("./assets/fonts/Montserrat-Light.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -37,7 +37,7 @@ Monaco
 }
 
 a {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 18px;
   text-decoration: none;
   color: #000;
@@ -62,7 +62,7 @@ button {
   padding: 10px 15px;
   background: #fff;
   color: #000;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 18px;
   text-decoration: none;
   border: none;
@@ -80,16 +80,29 @@ button:active {
   transition: all 0.1s ease;
 }
 
-h1,h2,h3,h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: normal;
   padding: 0px;
 }
 
-h1 {font-size: 44px;}
-h2 {font-size: 30px;}
-h3 {font-size: 26px;}
-h4 {font-size: 22px;}
-p {font-size: 20px;}
+h1 {
+  font-size: 44px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 26px;
+}
+h4 {
+  font-size: 22px;
+}
+p {
+  font-size: 20px;
+}
 
 .heading-type1 {
   margin-bottom: 20px;
@@ -107,23 +120,24 @@ p {font-size: 20px;}
   margin-bottom: 20px;
   padding: 10px;
   border-bottom: 5px solid rgb(64, 27, 231);
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 }
 
-ul, ol {  
+ul,
+ol {
   list-style-type: none;
 }
 
 input {
   font-size: 20px;
-  font-family: 'Google Sans';
+  font-family: "Google Sans";
 }
 
 input:focus {
   outline: none;
 }
 
-input[type='text'] {
+input[type="text"] {
   background-color: #fff;
   border: none;
   border-radius: 50%;
@@ -131,7 +145,7 @@ input[type='text'] {
 
 body {
   background: #e2e1e0;
-  font-family: 'Google Sans', 'Montserrat', 'Segoe UI';
+  font-family: "Google Sans", "Montserrat", "Segoe UI";
   font-size: 19;
 }
 
@@ -152,7 +166,7 @@ body {
   color: rgb(64, 27, 231);
   padding: 7px;
   margin-bottom: 20px;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
 .header-main {
@@ -172,11 +186,19 @@ body {
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
+  min-height: 400px;
   margin: 20px 0;
   padding: 20px;
-  background-color: #333;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  background: linear-gradient(
+    0deg,
+    rgba(47, 27, 140, 1) 0%,
+    rgba(60, 24, 226, 1) 50%,
+    rgba(0, 159, 255, 1) 100%
+  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
 .showcase-header {
@@ -190,9 +212,9 @@ body {
   justify-content: space-between;
   font-size: 22px;
   padding: 0 10px;
-  background-color: #fff;
+  background: #fff;
   border-radius: 50px;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
 .searchbar-form input {
@@ -203,19 +225,19 @@ body {
 }
 
 .searchbar-form button {
-  color:rgb(64, 27, 231);
+  color: rgb(64, 27, 231);
   margin: 5px;
-  padding: 10px 30px;
+  padding: 5px 30px;
   border-radius: 50px;
 }
 
 .searchbar-form button:hover {
-  background-color: #e4e4e4;
+  background: #e4e4e4;
   color: rgb(64, 27, 231);
 }
 
 .searchbar-form button:active {
-  background-color: rgb(64, 27, 231);
+  background: rgb(64, 27, 231);
   color: #fff;
   transition: all 0.1s ease;
 }
@@ -226,7 +248,7 @@ body {
   overflow: hidden;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
 .category-container {
@@ -238,7 +260,7 @@ body {
 
 .category-card {
   flex: 0.33;
-  min-height: 150px;
+  min-height: 160px;
   min-width: 300px;
   margin: 10px;
   padding: 20px;
@@ -261,7 +283,7 @@ body {
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
 .footer-main {
