@@ -35,7 +35,7 @@ Monaco
   font-weight: normal;
   transition: all 0.2s ease;
 }
-
+/**
 a {
   font-family: "Montserrat";
   font-size: 18px;
@@ -55,6 +55,12 @@ a:active {
   background-color: rgb(64, 27, 231);
   color: #fff;
   transition: all 0.1s ease;
+}
+*/
+
+a {
+  text-decoration: none;
+  color: rgb(64, 27, 231);
 }
 
 button {
@@ -291,4 +297,17 @@ body {
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-evenly;
+}
+
+.card-type1 {
+  flex: 0.33;
+  margin: 10px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 22px;
 }
