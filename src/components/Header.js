@@ -12,8 +12,9 @@ const Header = () => {
                     <div class='header-nav'>
                         <Link to='/services'><button>Services</button></Link>
                         <Link to='/about'><button>About</button></Link>
-                        <button>Other</button>
-                        <Link to='/login'><button>Account</button></Link>
+                        {/* <button>Other</button> */}
+                        <Link to='/signup'><button>Sign Up</button></Link>
+                        <Link to='/login'><button>Log In</button></Link>
                     </div>
                 </div>
             </div>

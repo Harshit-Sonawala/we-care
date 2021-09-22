@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Services from './pages/Services'
 import About from './pages/About'
 import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 import Homepage from './pages/Homepage'
 import Footer from './components/Footer'
 
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path='/services' component={Services} />
                 <Route path='/about' component={About} />
                 <Route path='/login' component={Login} />
+                <Route path='/signup' component={SignUp} />
                 <Footer />
             </div>
         </Router>

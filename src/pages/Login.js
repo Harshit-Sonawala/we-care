@@ -18,7 +18,7 @@ const Login = () => {
 
     return (
         <div className='eightyperc-container'>
-            <div className='card-type1 account-card'>
+            <div className='card-type1 login-card'>
                 <div className='ninetyfiveperc-container flex-container'>
                     <div className='circle-avatar'>
                         <Person style={{ color: '#401BE7', height: '70px', width: '70px' }} />
@@ -27,7 +27,7 @@ const Login = () => {
                         <h2 className='heading-type3'>Log in</h2>
                         <p>Enter Email:</p>
                         <input type='text'
-                            placeholder='john@example.com'
+                            placeholder='abc@example.com'
                             value={loginEmail}
                             onChange={(e) => setLoginEmail(e.target.value)}
                         />
@@ -36,12 +36,12 @@ const Login = () => {
                             value={loginPassword}
                             onChange={(e) => setLoginPassword(e.target.value)}
                         />
-                        <input type="submit" className="button" value="Submit" />
+                        <input type='submit' className='button' value='Submit' />
                         <p className='centerText'>Forgot Password?</p>
                     </form>
                 </div>
             </div>
-            <div className='card-type1 account-card account-card2'>
+            <div className='card-type1 login-card login-card2'>
                 <p>New user? Create an account instead.</p>
             </div>
         </div>

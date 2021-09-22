@@ -358,33 +358,31 @@ body {
   font-size: 22px;
 }
 
-.account-card {
+.login-card {
   margin: auto;
   width: 600px;
   height: 600px;
-  align-items: stretch;
-  justify-content: space-evenly;
   font-size: 22px;
 }
 
-.account-card h2 {
+.login-card h2 {
   text-align: center;
 }
 
-.account-card p {
+.login-card p {
   padding: 10px;
 }
 
-.account-card input[type='text'], input[type="password"] {
+.login-card input[type='text'], .login-card input[type="password"] {
   width: 400px;
 }
 
-.account-card input[type='submit'] {
+.login-card input[type='submit'] {
   margin: 30px 5px 20px;
   width: 400px;
 }
 
-.account-card2 {
+.login-card2 {
   margin: 20px auto;
   padding: 5px;
   width: 600px;
@@ -404,6 +402,38 @@ body {
   padding: 10px;
   background: #f4f4f4;
   border-radius: 50%;
+}
+
+.signup-card {
+  margin: auto;
+  width: 800px;
+}
+
+.signup-card p{
+  display: inline;
+}
+
+.signup-card h2 {
+  text-align: center;
+}
+
+.signup-card input[type='text'], .signup-card input[type="password"] {
+  width: 250px;
+  margin: 10px;
+}
+
+.signup-flex-column {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-flex-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 /**
