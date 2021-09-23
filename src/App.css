@@ -406,7 +406,7 @@ body {
 
 .signup-card {
   margin: auto;
-  width: 800px;
+  width: 750px;
 }
 
 .signup-card p{
@@ -419,6 +419,11 @@ body {
 
 .signup-card input[type='text'], .signup-card input[type="password"] {
   width: 250px;
+  margin: 10px;
+}
+
+.signup-card input[type='submit'] {
+  align-self: stretch;
   margin: 10px;
 }
 
@@ -436,7 +441,16 @@ body {
   align-items: center;
 }
 
-/**
+.signup-card2 {
+  margin: 20px auto;
+  padding: 15px;
+  width: 750px;
+  height: auto;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+}
+
 .service-card {
   display: flex;
   flex-flow: column wrap;
@@ -454,4 +468,3 @@ body {
   border-radius: 10px;
   background-color: #f4f4f4;
 }
-*/
