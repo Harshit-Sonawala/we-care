@@ -7,24 +7,32 @@ Monaco
 */
 
 @font-face {
-  font-family: "Google Sans";
-  src: url("./assets/fonts/ProductSans-Regular.ttf");
+  font-family: 'Google Sans';
+  src: url('./assets/fonts/ProductSans-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Montserrat";
-  src: url("./assets/fonts/Montserrat-Regular.ttf");
+  font-family: 'Montserrat';
+  src: url('./assets/fonts/Montserrat-Regular.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Montserrat Light";
-  src: url("./assets/fonts/Montserrat-Light.ttf");
+  font-family: 'Montserrat Light';
+  src: url('./assets/fonts/Montserrat-Light.ttf');
   font-weight: normal;
   font-style: normal;
+}
+
+:root {
+  --primary-color: #266ef3;
+  --accent-color: rgb(119, 194, 255);
+  --white: #faf0e6;
+  --grey: #f4f4f4;
+  --dark-grey: #e4e4e4;
 }
 
 /* reset */
@@ -35,9 +43,10 @@ Monaco
   font-weight: normal;
   transition: all 0.2s ease;
 }
+
 /**
 a {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   color: #000;
@@ -60,7 +69,7 @@ a:active {
 
 a {
   text-decoration: none;
-  color: #401BE7;
+  color: var(--primary-color);
 }
 
 button {
@@ -68,20 +77,21 @@ button {
   padding: 10px 15px;
   background: #fff;
   color: #000;
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 button:hover {
-  background: #f4f4f4;
-  color: #401BE7;
+  background: var(--grey);
+  color: var(--primary-color);
 }
 
 button:active {
-  background-color: #401BE7;
+  background-color: var(--primary-color);
   color: #fff;
   transition: all 0.1s ease;
 }
@@ -111,7 +121,7 @@ p {
 }
 
 .heading-type1 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 10px;
   color: #fff;
 }
@@ -125,8 +135,8 @@ p {
 .heading-type3 {
   margin-bottom: 20px;
   padding: 10px;
-  border-bottom: 5px solid #401BE7;
-  font-family: "Montserrat";
+  border-bottom: 5px solid var(--primary-color);
+  font-family: 'Montserrat';
 }
 
 ul,
@@ -136,52 +146,53 @@ ol {
 
 input {
   font-size: 20px;
-  font-family: "Google Sans";
+  font-family: 'Google Sans';
 }
 
 input:focus {
   outline: none;
 }
 
-input[type="text"], input[type="password"] {
+input[type='text'], input[type='password'] {
   margin: 5px;
   padding: 10px 15px;
   background: #f4f4f4;
   color: #000;
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   border: none;
   border-radius: 10px;
 }
 
-input[type="submit"] {
+input[type='submit'] {
   display: block;
   margin: 10px 5px;
-  padding: 10px 100px;
-  background: #401BE7;
+  padding: 12px 100px;
+  background: var(--primary-color);
   color: #fff;
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
 }
 
-input[type="submit"]:hover {
-  background: #6746FF;
-  color: #fff;
+input[type='submit']:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
 }
 
-input[type="submit"]:active {
+input[type='submit']:active {
   background: #f4f4f4;
-  color: #401BE7;
+  color: var(--primary-color);
   transition: all 0.1s ease;
 }
 
 body {
   background: #e2e1e0;
-  font-family: "Google Sans", "Montserrat", "Segoe UI";
+  font-family: 'Google Sans', 'Montserrat', 'Segoe UI';
   font-size: 19;
 }
 
@@ -210,7 +221,7 @@ body {
 
 .header {
   background-color: #fff;
-  color: #401BE7;
+  color: var(--primary-color);
   padding: 7px;
   margin-bottom: 20px;
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
@@ -232,27 +243,25 @@ body {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  margin: 20px 0;
-  padding: 20px;
+  justify-content: space-around;
+  min-height: 500px;
+  padding: 50px;
   background: linear-gradient(
     0deg,
-    rgba(47, 27, 140, 1) 0%,
-    rgba(60, 24, 226, 1) 50%,
-    rgba(0, 159, 255, 1) 100%
+    rgb(123, 33, 197) 0%,
+    rgb(62, 36, 209) 50%,
+    var(--primary-color) 100%
   );
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
-}
-
-.showcase-header {
-  margin-bottom: 30px;
+  text-align: center;
 }
 
 .searchbar-form {
+  margin: auto;
+  width: 70%;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -271,13 +280,13 @@ body {
   border-radius: 50px;
 }
 
-.searchbar-form input[type="text"] {
+.searchbar-form input[type='text'] {
   background: #fff;
   border-radius: 50px;
 }
 
 .searchbar-form button {
-  color: #401BE7;
+  color: var(--primary-color);
   margin: 5px;
   padding: 8px 25px 5px;
   border-radius: 50px;
@@ -285,11 +294,11 @@ body {
 
 .searchbar-form button:hover {
   background: #e4e4e4;
-  color: #401BE7;
+  color: var(--primary-color);
 }
 
 .searchbar-form button:active {
-  background: #401BE7;
+  background: var(--primary-color);
   color: #fff;
   transition: all 0.1s ease;
 }
@@ -298,6 +307,7 @@ body {
   margin: 20px auto;
   padding: 20px;
   overflow: hidden;
+  width: 1200px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
@@ -373,7 +383,7 @@ body {
   padding: 10px;
 }
 
-.login-card input[type='text'], .login-card input[type="password"] {
+.login-card input[type='text'], .login-card input[type='password'] {
   width: 400px;
 }
 
@@ -406,18 +416,20 @@ body {
 
 .signup-card {
   margin: auto;
-  width: 750px;
+  width: 700px;
 }
 
 .signup-card p{
   display: inline;
+  width: 200px;
+  text-align: right;
 }
 
 .signup-card h2 {
   text-align: center;
 }
 
-.signup-card input[type='text'], .signup-card input[type="password"] {
+.signup-card input[type='text'], .signup-card input[type='password'] {
   width: 250px;
   margin: 10px;
 }
@@ -425,6 +437,7 @@ body {
 .signup-card input[type='submit'] {
   align-self: stretch;
   margin: 10px;
+  width: 400px;
 }
 
 .signup-flex-column {
@@ -444,11 +457,15 @@ body {
 .signup-card2 {
   margin: 20px auto;
   padding: 15px;
-  width: 750px;
+  width: 700px;
   height: auto;
   justify-content: center;
   font-size: 22px;
   text-align: center;
+}
+
+.signup-card2 p{
+  width: auto;
 }
 
 .service-card {
@@ -459,7 +476,7 @@ body {
 }
 
 .service-card h3{
-  color: #401BE7;
+  color: var(--primary-color);
 }
 
 .service-card p {

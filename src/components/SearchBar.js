@@ -6,7 +6,7 @@ const SearchBar = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        if(!searchQuery) {
+        if (!searchQuery) {
             alert('Please enter the search query.')
             return
         }
@@ -16,17 +16,14 @@ const SearchBar = () => {
     }
 
     return (
-        <div className='eightyperc-container'>
-            <form className='searchbar-form' onSubmit={onSubmit}>
-                    <input type='text' 
-                        placeholder='Search...'
-                        value={searchQuery}
-                        onChange={(e) => setQuery(e.target.value)}
-                    />
-                    <button><Search /></button>
-            </form>
-        </div>
-        
+        <form className='searchbar-form' onSubmit={onSubmit}>
+            <input type='text'
+                placeholder='Search for services...'
+                value={searchQuery}
+                onChange={(e) => setQuery(e.target.value)}
+            />
+            <button><Search /></button>
+        </form>
     )
 }
 

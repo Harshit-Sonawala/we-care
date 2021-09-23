@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Person } from '@material-ui/icons'
 import { firebaseSignInEmail } from '../firebase'
 import { Link } from 'react-router-dom'
+import globalPrimaryColor from '../assets/colors'
 
 const Login = () => {
 
@@ -51,7 +52,7 @@ const Login = () => {
             <div className='card-type1 login-card'>
                 <div className='ninetyfiveperc-container flex-container'>
                     <div className='circle-avatar'>
-                        <Person style={{ color: '#401BE7', height: '70px', width: '70px' }} />
+                        <Person style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
                     </div>
                     <form onSubmit={onLoginSubmit} className='eightyperc-container'>
                         <h2 className='heading-type3'>Log in</h2>

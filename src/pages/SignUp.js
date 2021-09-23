@@ -115,11 +115,13 @@ const SignUp = () => {
                                 </div>
                                 <button value='Add a Photo'>Add a Photo</button>
                             </div>
-                            <input type='submit' className='button' value='Submit' disabled={loading} />
+                            <div className='signup-flex-row'>
+                                <input type='submit' className='button' value='Submit' disabled={loading} />
+                            </div>
                         </div>
                     </form>
                 </div>
-            </div >
+            </div>
             <div className='card-type1 signup-card signup-card2'>
                 <p>Existing user? <Link to='/login'>Log in</Link> instead.</p>
             </div>
