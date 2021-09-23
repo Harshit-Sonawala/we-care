@@ -15,8 +15,8 @@ A website with a primary focus on frontend and user experience which allows the 
 
 ### Screenshots so far ###
 
-<img src="https://github.com/Harshit-Sonawala/we_care/tree/master/screenshots/home.jpg" width="480">  
-<img src="https://github.com/Harshit-Sonawala/we_care/tree/master/screenshots/home2.jpg" width="480">  
-<img src="https://github.com/Harshit-Sonawala/we_care/tree/master/screenshots/login.jpg" width="480">  
-<img src="https://github.com/Harshit-Sonawala/we_care/tree/master/screenshots/signup.jpg" width="480">  
+<img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/home.jpg" width="480">  
+<img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/home2.jpg" width="480">  
+<img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/login.jpg" width="480">  
+<img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/signup.jpg" width="480">  
  
