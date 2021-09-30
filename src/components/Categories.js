@@ -12,21 +12,19 @@ import CategoryCard from './CategoryCard'
 
 const Categories = () => {
     return (
-        <div className='ninetyfiveperc-container'>
-            <div className='category-main'>
-                <div className='ninetyfiveperc-container'>
-                    <h2 className='heading-type3'>Categories:</h2>
-                </div>
+        <div className='category-main'>
+            <div className="ninetyfiveperc-container">
+                <h2 className='heading-type3'>Categories:</h2>
                 <div className='category-container'>
-                    <CategoryCard title={'Cleaning'} bgImg={cleaningImg}/>
-                    <CategoryCard title={'Electricians'} bgImg={electricianImg}/>
-                    <CategoryCard title={'Plumbers'} bgImg={plumberImg}/>
-                    <CategoryCard title={'Carpenters'} bgImg={carpenterImg}/>
-                    <CategoryCard title={'Pest Control'} bgImg={pestcontImg}/>
-                    <CategoryCard title={'Salon for Women'} bgImg={womensalonImg}/>
-                    <CategoryCard title={'Salon for Men'} bgImg={mensalonImg}/>
-                    <CategoryCard title={'Massage'} bgImg={massageImg}/>
-                    <CategoryCard title={'Miscellanious'} bgImg={miscImg}/>
+                    <CategoryCard title={'Cleaning'} bgImg={cleaningImg} />
+                    <CategoryCard title={'Electricians'} bgImg={electricianImg} />
+                    <CategoryCard title={'Plumbers'} bgImg={plumberImg} />
+                    <CategoryCard title={'Carpenters'} bgImg={carpenterImg} />
+                    <CategoryCard title={'Pest Control'} bgImg={pestcontImg} />
+                    <CategoryCard title={'Salon for Women'} bgImg={womensalonImg} />
+                    <CategoryCard title={'Salon for Men'} bgImg={mensalonImg} />
+                    <CategoryCard title={'Massage'} bgImg={massageImg} />
+                    <CategoryCard title={'Miscellanious'} bgImg={miscImg} />
                 </div>
             </div>
         </div>

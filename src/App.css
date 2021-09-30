@@ -29,7 +29,7 @@ Monaco
 
 :root {
   --primary-color: #266ef3;
-  --accent-color: rgb(119, 194, 255);
+  --accent-color: rgb(71, 203, 255);
   --white: #faf0e6;
   --grey: #f4f4f4;
   --dark-grey: #e4e4e4;
@@ -94,6 +94,12 @@ button:active {
   background-color: var(--primary-color);
   color: #fff;
   transition: all 0.1s ease;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 h1,
@@ -249,8 +255,8 @@ body {
   background: linear-gradient(
     0deg,
     rgb(123, 33, 197) 0%,
-    rgb(62, 36, 209) 50%,
-    var(--primary-color) 100%
+    var(--primary-color) 50%,
+    var(--accent-color) 100%
   );
   background-size: cover;
   background-position: center;
@@ -304,10 +310,10 @@ body {
 }
 
 .category-main {
-  margin: 20px auto;
+  margin: 10px auto;
   padding: 20px;
   overflow: hidden;
-  width: 1200px;
+  width: 100%;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
@@ -357,7 +363,7 @@ body {
 
 .card-type1 {
   flex: 0.33;
-  margin: 10px;
+  margin: 10px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
@@ -484,4 +490,24 @@ body {
   margin: 7px 0;
   border-radius: 10px;
   background-color: #f4f4f4;
+}
+
+.landing-card {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 400px;
+  margin: 20px 0;
+  padding: auto;
+}
+
+.landing-content h1 {
+  color: var(--primary-color);
+}
+
+.landing-image {
+  width: 300px;
+  height: 300px;
+  margin: 20px;
 }

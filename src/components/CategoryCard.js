@@ -1,6 +1,6 @@
 const CategoryCard = ({ title, bgImg }) => {
 
-    const cardBg = {
+    const cardBgStyle = {
         backgroundImage: `url(${bgImg})`,
         backgroundPosition: `center`,
         backgroundSize: `cover`,
@@ -8,7 +8,7 @@ const CategoryCard = ({ title, bgImg }) => {
     }
 
     return (
-        <div className='category-card' style={cardBg}>
+        <div className='category-card' style={cardBgStyle}>
             <div className='category-card-title'>{title}</div>
         </div>
     )
