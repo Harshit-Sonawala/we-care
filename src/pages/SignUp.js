@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { PersonAdd } from '@material-ui/icons'
 import { firebaseCreateUserEmail } from '../firebase'
 import { Link } from 'react-router-dom'
+import globalPrimaryColor from '../assets/colors'
 
 const SignUp = () => {
 
@@ -111,7 +112,7 @@ const SignUp = () => {
                             </div>
                             <div className='signup-flex-row'>
                                 <div className='circle-avatar'>
-                                    <PersonAdd style={{ color: '#401BE7', height: '70px', width: '70px' }} />
+                                    <PersonAdd style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
                                 </div>
                                 <button value='Add a Photo'>Add a Photo</button>
                             </div>

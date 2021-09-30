@@ -1,6 +1,6 @@
 import Showcase from '../components/Showcase'
 import LandingCard from '../components/LandingCard'
-import trustedProfessional from '../assets/images/Businesswoman_Monochromatic.png'
+import trustedProfessional from '../assets/images/Businessman _Monochromatic.png'
 import easyPayments from '../assets/images/Calculator_Monochromatic.png'
 import qualityService from '../assets/images/Checklist_Monochromatic.png'
 

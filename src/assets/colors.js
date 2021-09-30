@@ -1,2 +1,2 @@
-const globalPrimaryColor = "#401BE7"
+const globalPrimaryColor = "#1d8ae4"
 export default globalPrimaryColor
