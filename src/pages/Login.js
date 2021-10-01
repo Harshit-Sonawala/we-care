@@ -1,10 +1,14 @@
-import { useState } from 'react'
-import { Person } from '@material-ui/icons'
-import { firebaseSignInEmail } from '../firebase'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { FirebaseContext } from '../contexts/FirebaseContext'
+import { auth } from '../firebase'
+import { Person } from '@material-ui/icons'
 import globalPrimaryColor from '../assets/colors'
 
 const Login = () => {
+
+    const { setUserId } = useContext(FirebaseContext)
 
     const [logInState, setlogInState] = useState({
         loginEmail: '',
@@ -45,6 +49,13 @@ const Login = () => {
             loginPassword: ''
         })
         setLoading(false)
+    }
+
+    const firebaseSignInEmail = async (passedEmail, passedPassword) => {
+        const userCredentials = await signInWithEmailAndPassword(auth, passedEmail, passedPassword)
+        const { user: { uid } } = userCredentials
+        alert(`Successfully logged in user with userId: ${uid}`)
+        setUserId(uid)
     }
 
     return (

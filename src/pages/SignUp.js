@@ -1,12 +1,19 @@
-import { useState } from 'react'
-import { PersonAdd } from '@material-ui/icons'
-import { firebaseCreateUserEmail } from '../firebase'
+import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { auth, db } from '../firebase'
+import { FirebaseContext } from '../contexts/FirebaseContext'
+import { PersonAdd } from '@material-ui/icons'
 import globalPrimaryColor from '../assets/colors'
 
 const SignUp = () => {
 
-    const [signUpState, setSignUpState] = useState({
+    const { currentUser, setCurrentUser } = useContext(FirebaseContext)
+
+    //const [showProviderForm, setShowProviderForm] = useState(false)
+
+    const [userSignUpState, setUserSignUpState] = useState({
         userFirstName: '',
         userLastName: '',
         userEmail: '',
@@ -14,43 +21,122 @@ const SignUp = () => {
         userConfirmPassword: ''
     })
 
+    const [providerSignUpState, setProviderSignUpState] = useState({
+        providerFirstName: '',
+        providerLastName: '',
+        providerCompanyName: '',
+        providerDescription: '',
+        providerEmail: '',
+        providerPassword: '',
+        providerConfirmPassword: ''
+    })
+
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
     const handleUserChange = (e) => {
-        setSignUpState({
-            ...signUpState,
+        setUserSignUpState({
+            ...userSignUpState,
             [e.target.name]: e.target.value
         })
     }
 
-    const onUserSignUpSubmit = (e) => {
+    const handleProviderChange = (e) => {
+        setProviderSignUpState({
+            ...providerSignUpState,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setCurrentUser(user)
+            console.log(`signed in with: ${user.uid}`)
+        } else {
+            console.log('signed out')
+        }
+    })
+
+    const firebaseSignOut = () => {
+        signOut(auth).then(() => {
+            setCurrentUser(null)
+            console.log('Sign Out Successful.')
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+
+    const firebaseCreateUserEmail = async () => {
+        await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userCredential) => {
+            const user = userCredential.user
+            alert(`Successfully created user with userId: ${user.uid}`)
+            setCurrentUser(user)
+            console.log(`in firebaseCreateUserEmail: userId = ${currentUser.uid}, uid = ${user.uid}`)
+        }).catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            alert(`Error Code ${errorCode}: ${errorMessage}`)
+            return
+        })
+        //const { user: { uid } } = userCredentials
+    }
+
+    const firebaseSubmitUserData = async () => {
+        console.log(`in firebaseSubmitUserData: userId = ${currentUser.uid}`)
+        await setDoc(doc(db, 'users', `${currentUser.uid}`), {
+            userFirstName: userSignUpState.userFirstName,
+            userLastName: userSignUpState.userLastName,
+            userEmail: userSignUpState.userEmail
+        })
+    }
+
+
+    // const firebaseSubmitProviderData = async (passedFirstName, passedLastName, passedCompanyName, passedDescription, passedEmail, passedPassword) => {
+    //     await setDoc(doc(db, 'providers', userId), {
+    //         providerFirstName: passedFirstName,
+    //         providerLastName: passedLastName,
+    //         providerCompanyName: passedCompanyName,
+    //         providerDescription: passedDescription,
+    //         providerEmail: passedEmail,
+    //         providerPassword: passedPassword
+    //     })
+    // }
+
+    const onUserSignUpSubmit = async (e) => {
         e.preventDefault()
-        console.log(signUpState)
-        if (signUpState.userFirstName && signUpState.userLastName && signUpState.userEmail && signUpState.userPassword && signUpState.userConfirmPassword) {
-            if (signUpState.userPassword === signUpState.userConfirmPassword) {
-                try {
-                    setError('')
-                    setLoading(true)
-                    const finalUserEmail = signUpState.userEmail
-                    const finalUserPassword = signUpState.userPassword
-                    firebaseCreateUserEmail(finalUserEmail, finalUserPassword)
-                } catch {
-                    setError('Failed to create user account.')
-                    console.log(error)
-                    return
-                }
+        console.log(userSignUpState)
+        if (userSignUpState.userFirstName && userSignUpState.userLastName && userSignUpState.userEmail && userSignUpState.userPassword && userSignUpState.userConfirmPassword) {
+            if (userSignUpState.userPassword === userSignUpState.userConfirmPassword) {
+                // try {
+                setError('')
+                setLoading(true)
+                firebaseSignOut()
+                firebaseCreateUserEmail().then(() => {
+                    firebaseSubmitUserData()
+                })
             } else {
                 alert('Entered passwords do not match.')
                 setError('User password mismatch.')
                 return
+                // firebaseCreateUserEmail(userSignUpState.userEmail, userSignUpState.userPassword).then(() => {
+                //     if (currentUser !== null) {
+                //         firebaseSubmitUserData(userSignUpState.userFirstName, userSignUpState.userLastName, userSignUpState.userEmail)
+                //     } else {
+                //         console.log(`currentUser is: ${currentUser}`)
+                //     }
+                // })
+                // } catch {
+                //     setError('Failed to create User account.')
+                //     console.log(error)
+                //     return
+                // }
             }
         } else {
             alert('Please fill in all the fields.')
             setError('Incomplete fields.')
             return
         }
-        setSignUpState({
+        setUserSignUpState({
             userFirstName: '',
             userLastName: '',
             userEmail: '',
@@ -59,6 +145,46 @@ const SignUp = () => {
         })
         setLoading(false)
     }
+
+    const onProviderSignUpSubmit = (e) => {
+        e.preventDefault()
+        console.log(providerSignUpState)
+        if (providerSignUpState.providerFirstName && providerSignUpState.providerLastName && providerSignUpState.providerEmail && providerSignUpState.providerPassword && providerSignUpState.providerConfirmPassword) {
+            if (providerSignUpState.providerPassword === providerSignUpState.providerConfirmPassword) {
+                try {
+                    setError('')
+                    setLoading(true)
+                    //const finalProviderEmail = providerSignUpState.providerEmail
+                    //const finalProviderPassword = providerSignUpState.providerPassword
+                    //firebaseCreateUserEmail(finalProviderEmail, finalProviderPassword)
+                } catch {
+                    setError('Failed to create Provider account.')
+                    console.log(error)
+                    return
+                }
+            } else {
+                alert('Entered passwords do not match.')
+                setError('provider password mismatch.')
+                return
+            }
+        } else {
+            alert('Please fill in all the fields.')
+            setError('Incomplete fields.')
+            return
+        }
+        setUserSignUpState({
+            userFirstName: '',
+            userLastName: '',
+            userEmail: '',
+            userPassword: '',
+            userConfirmPassword: ''
+        })
+        setLoading(false)
+    }
+
+    // const firebaseSubmitUserData = async (passedFirstName, passedLastName, passedEmail) => {
+
+    // }
 
     return (
         <div className='eightyperc-container'>
@@ -72,7 +198,7 @@ const SignUp = () => {
                                 <input type='text'
                                     name='userFirstName'
                                     placeholder='John'
-                                    value={signUpState.userFirstName}
+                                    value={userSignUpState.userFirstName}
                                     onChange={handleUserChange}
                                 />
                             </div>
@@ -81,7 +207,7 @@ const SignUp = () => {
                                 <input type='text'
                                     name='userLastName'
                                     placeholder='Doe'
-                                    value={signUpState.userLastName}
+                                    value={userSignUpState.userLastName}
                                     onChange={handleUserChange}
                                 />
                             </div>
@@ -90,7 +216,7 @@ const SignUp = () => {
                                 <input type='text'
                                     name='userEmail'
                                     placeholder='abc@example.com'
-                                    value={signUpState.userEmail}
+                                    value={userSignUpState.userEmail}
                                     onChange={handleUserChange}
                                 />
                             </div>
@@ -98,7 +224,7 @@ const SignUp = () => {
                                 <p>Choose a Password: </p>
                                 <input type='password'
                                     name='userPassword'
-                                    value={signUpState.userPassword}
+                                    value={userSignUpState.userPassword}
                                     onChange={handleUserChange}
                                 />
                             </div>
@@ -106,7 +232,7 @@ const SignUp = () => {
                                 <p>Confirm Password: </p>
                                 <input type='password'
                                     name='userConfirmPassword'
-                                    value={signUpState.userConfirmPassword}
+                                    value={userSignUpState.userConfirmPassword}
                                     onChange={handleUserChange}
                                 />
                             </div>
@@ -123,6 +249,78 @@ const SignUp = () => {
                     </form>
                 </div>
             </div>
+
+            <div className='card-type1 signup-card'>
+                <div className='ninetyfiveperc-container flex-container'>
+                    <form onSubmit={onProviderSignUpSubmit} className='eightyperc-container'>
+                        <h2 className='heading-type3'>Provider Sign Up</h2>
+                        <div className='signup-flex-column'>
+                            <div className='signup-flex-row'>
+                                <p>Enter Firstname: </p>
+                                <input type='text'
+                                    name='providerFirstName'
+                                    placeholder='John'
+                                    value={providerSignUpState.providerFirstName}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <p>Enter Lastname: </p>
+                                <input type='text'
+                                    name='providerLastName'
+                                    placeholder='Doe'
+                                    value={providerSignUpState.providerLastName}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <p>Enter Company Name: </p>
+                                <input type='text'
+                                    name='providerCompanyName'
+                                    placeholder='Company/Self-Employed'
+                                    value={providerSignUpState.providerCompanyName}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <p>Enter Email: </p>
+                                <input type='text'
+                                    name='providerEmail'
+                                    placeholder='abc@company.com'
+                                    value={providerSignUpState.providerEmail}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <p>Choose a Password: </p>
+                                <input type='password'
+                                    name='providerPassword'
+                                    value={providerSignUpState.providerPassword}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <p>Confirm Password: </p>
+                                <input type='password'
+                                    name='providerConfirmPassword'
+                                    value={providerSignUpState.providerConfirmPassword}
+                                    onChange={handleProviderChange}
+                                />
+                            </div>
+                            <div className='signup-flex-row'>
+                                <div className='circle-avatar'>
+                                    <PersonAdd style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
+                                </div>
+                                <button value='Add a Photo'>Add a Photo</button>
+                            </div>
+                            <div className='signup-flex-row'>
+                                <input type='submit' className='button' value='Submit' disabled={loading} />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div className='card-type1 signup-card signup-card2'>
                 <p>Existing user? <Link to='/login'>Log in</Link> instead.</p>
             </div>

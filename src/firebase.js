@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const app = initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -11,18 +12,8 @@ const app = initializeApp({
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 })
 
-export const auth = getAuth(app);
+export const auth = getAuth(app)
 
-export const firebaseCreateUserEmail = async (passedEmail, passedPassword) => {
-    const userCredentials = await createUserWithEmailAndPassword(auth, passedEmail, passedPassword)
-    const { user: { uid } } = userCredentials
-    alert(`Successfully created user with userId: ${uid}`)
-}
-
-export const firebaseSignInEmail = async (passedEmail, passedPassword) => {
-    const userCredentials = await signInWithEmailAndPassword(auth, passedEmail, passedPassword)
-    const { user: { uid } } = userCredentials
-    alert(`Successfully logged in user with userId: ${uid}`)
-}
+export const db = getFirestore()
 
 export default app

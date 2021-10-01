@@ -6,9 +6,9 @@ A website with a primary focus on frontend and user experience which allows the 
 
 ### Technologies Used: ###
 * React with Routing, Hooks, Context  
-* Firebase Authentication
+* Firebase Authentication  
 * Modern JavaScript conventions  
-* Custom CSS styling
+* Custom CSS styling  
 * Material Icons  
 
 - - - -

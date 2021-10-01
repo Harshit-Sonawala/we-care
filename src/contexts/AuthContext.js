@@ -12,8 +12,8 @@
 
 //     const [currentUser, setCurrentUser] = useState()
 
-//     function signup(email, password) {
-//         return createUserWithEmailAndPassword(email, password)
+//     function firebaseSignUp(passedEmail, passedPassword) {
+//         return createUserWithEmailAndPassword(passedEmail, passedPassword)
 //     }
 
 //     useEffect(() => {
@@ -23,13 +23,13 @@
 //         return unsubscribe
 //     }, [])
 
-//     const value = {
-//         currentUser,
-//         signup
-//     }
+//     // const value = {
+//     //     currentUser,
+//     //     signup
+//     // }
 
 //     return (
-//         <AuthContext.Provider value={value}>
+//         <AuthContext.Provider value={{ currentUser, firebaseSignUp }}>
 //             {children}
 //         </AuthContext.Provider>
 //     )
