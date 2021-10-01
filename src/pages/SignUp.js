@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { FirebaseContext } from '../contexts/FirebaseContext'
@@ -59,18 +59,17 @@ const SignUp = () => {
 
     const firebaseSignOut = () => {
         signOut(auth).then(() => {
-            setCurrentUser(null)
-            console.log('Sign Out Successful.')
+            setCurrentUser()
         }).catch((error) => {
             console.log(error)
         });
     }
 
     const firebaseCreateUserEmail = async () => {
-        await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userCredential) => {
+        await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then(async (userCredential) => {
             const user = userCredential.user
             alert(`Successfully created user with userId: ${user.uid}`)
-            setCurrentUser(user)
+            await firebaseSignInEmail(userSignUpState.userEmail, userSignUpState.userPassword)
             console.log(`in firebaseCreateUserEmail: userId = ${currentUser.uid}, uid = ${user.uid}`)
         }).catch((error) => {
             const errorCode = error.code
@@ -79,6 +78,19 @@ const SignUp = () => {
             return
         })
         //const { user: { uid } } = userCredentials
+    }
+
+    const firebaseSignInEmail = async (passedEmail, passedPassword) => {
+        await signInWithEmailAndPassword(auth, passedEmail, passedPassword).then((userCredential) => {
+            const user = userCredential.user
+            setCurrentUser(user)
+            if (currentUser) { firebaseSubmitUserData() }
+        }).catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            alert(`Error Code ${errorCode}: ${errorMessage}`)
+            return
+        })
     }
 
     const firebaseSubmitUserData = async () => {
@@ -112,24 +124,12 @@ const SignUp = () => {
                 setLoading(true)
                 firebaseSignOut()
                 firebaseCreateUserEmail().then(() => {
-                    firebaseSubmitUserData()
+                    // if (currentUser) { firebaseSubmitUserData() }
                 })
             } else {
                 alert('Entered passwords do not match.')
                 setError('User password mismatch.')
                 return
-                // firebaseCreateUserEmail(userSignUpState.userEmail, userSignUpState.userPassword).then(() => {
-                //     if (currentUser !== null) {
-                //         firebaseSubmitUserData(userSignUpState.userFirstName, userSignUpState.userLastName, userSignUpState.userEmail)
-                //     } else {
-                //         console.log(`currentUser is: ${currentUser}`)
-                //     }
-                // })
-                // } catch {
-                //     setError('Failed to create User account.')
-                //     console.log(error)
-                //     return
-                // }
             }
         } else {
             alert('Please fill in all the fields.')

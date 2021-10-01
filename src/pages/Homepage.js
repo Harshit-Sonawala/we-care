@@ -10,19 +10,19 @@ const Homepage = () => {
             <Showcase />
             <LandingCard
                 title="Trusted Professionals"
-                subtitle="Top class service professionals right at your doorstep."
+                subtitle="We connect you with the top class service professionals right at your doorstep."
                 imagePath={trustedProfessional}
                 altText="Image 1"
             />
             <LandingCard
                 title="Quick & Easy Payments"
-                subtitle="All payment options with utmost security, to make your life easier."
+                subtitle="We provide all payment options with the utmost of security, to make your life easier."
                 imagePath={easyPayments}
                 altText="Image 2"
             />
             <LandingCard
                 title="Quality Services"
-                subtitle="Hello world this is an example of a subtitle."
+                subtitle="Verified professionals with years of expertise in their field that provide best quality services."
                 imagePath={qualityService}
                 altText="Image 3"
             />

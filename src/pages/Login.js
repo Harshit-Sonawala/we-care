@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { FirebaseContext } from '../contexts/FirebaseContext'
 import { auth } from '../firebase'
 import { Person } from '@material-ui/icons'
@@ -8,7 +8,7 @@ import globalPrimaryColor from '../assets/colors'
 
 const Login = () => {
 
-    const { setUserId } = useContext(FirebaseContext)
+    const { currentUser, setCurrentUser } = useContext(FirebaseContext)
 
     const [logInState, setlogInState] = useState({
         loginEmail: '',
@@ -51,11 +51,26 @@ const Login = () => {
         setLoading(false)
     }
 
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setCurrentUser(user)
+            console.log(`signed in with: ${user.uid}`)
+        } else {
+            console.log('signed out')
+        }
+    })
+
     const firebaseSignInEmail = async (passedEmail, passedPassword) => {
-        const userCredentials = await signInWithEmailAndPassword(auth, passedEmail, passedPassword)
-        const { user: { uid } } = userCredentials
-        alert(`Successfully logged in user with userId: ${uid}`)
-        setUserId(uid)
+        await signInWithEmailAndPassword(auth, passedEmail, passedPassword).then((userCredential) => {
+            const user = userCredential.user
+            setCurrentUser(user)
+            alert(`Successfully logged in user with userId: ${currentUser.uid}`)
+        }).catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            alert(`Error Code ${errorCode}: ${errorMessage}`)
+            return
+        })
     }
 
     return (

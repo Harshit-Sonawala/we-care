@@ -1,6 +1,10 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { FirebaseContext } from '../contexts/FirebaseContext'
 
-const Header = () => {
+const Navbar = () => {
+
+    const { currentUser } = useContext(FirebaseContext)
 
     return (
         <header className='header'>
@@ -13,8 +17,9 @@ const Header = () => {
                         <Link to='/services'><button>Services</button></Link>
                         <Link to='/about'><button>About</button></Link>
                         {/* <button>Other</button> */}
-                        <Link to='/signup'><button>Sign Up</button></Link>
+                        {/* <Link to='/signup'><button>Sign Up</button></Link> */}
                         <Link to='/login'><button>Log In</button></Link>
+                        {currentUser && <Link to='/profile'><button>{currentUser.uid}</button></Link>}
                     </div>
                 </div>
             </div>
@@ -22,4 +27,4 @@ const Header = () => {
     )
 }
 
-export default Header
+export default Navbar

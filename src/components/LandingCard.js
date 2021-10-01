@@ -3,7 +3,7 @@ import React from 'react'
 const LandingCard = ({ title, subtitle, imagePath, altText }) => {
     return (
         <div className="eightyperc-container">
-            <div class="card-type1 landing-card">
+            <div className="card-type1 landing-card">
                 <div className="landing-image">
                     <img src={imagePath} alt={altText} />
                 </div>
