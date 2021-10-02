@@ -1,15 +1,17 @@
 import { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { useHistory, Link } from 'react-router-dom'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
-import { FirebaseContext } from '../contexts/FirebaseContext'
+import { AuthContext } from '../contexts/AuthContext'
 import { PersonAdd } from '@material-ui/icons'
 import globalPrimaryColor from '../assets/colors'
 
 const SignUp = () => {
 
-    const { currentUser, setCurrentUser } = useContext(FirebaseContext)
+    const history = useHistory()
+
+    const { currentUser } = useContext(AuthContext)
 
     //const [showProviderForm, setShowProviderForm] = useState(false)
 
@@ -48,59 +50,14 @@ const SignUp = () => {
         })
     }
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setCurrentUser(user)
-            console.log(`signed in with: ${user.uid}`)
-        } else {
-            console.log('signed out')
-        }
-    })
-
-    const firebaseSignOut = () => {
-        signOut(auth).then(() => {
-            setCurrentUser()
-        }).catch((error) => {
-            console.log(error)
-        });
-    }
-
-    const firebaseCreateUserEmail = async () => {
-        await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then(async (userCredential) => {
-            const user = userCredential.user
-            alert(`Successfully created user with userId: ${user.uid}`)
-            await firebaseSignInEmail(userSignUpState.userEmail, userSignUpState.userPassword)
-            console.log(`in firebaseCreateUserEmail: userId = ${currentUser.uid}, uid = ${user.uid}`)
-        }).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            alert(`Error Code ${errorCode}: ${errorMessage}`)
-            return
-        })
-        //const { user: { uid } } = userCredentials
-    }
-
-    const firebaseSignInEmail = async (passedEmail, passedPassword) => {
-        await signInWithEmailAndPassword(auth, passedEmail, passedPassword).then((userCredential) => {
-            const user = userCredential.user
-            setCurrentUser(user)
-            if (currentUser) { firebaseSubmitUserData() }
-        }).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            alert(`Error Code ${errorCode}: ${errorMessage}`)
-            return
-        })
-    }
-
-    const firebaseSubmitUserData = async () => {
-        console.log(`in firebaseSubmitUserData: userId = ${currentUser.uid}`)
-        await setDoc(doc(db, 'users', `${currentUser.uid}`), {
-            userFirstName: userSignUpState.userFirstName,
-            userLastName: userSignUpState.userLastName,
-            userEmail: userSignUpState.userEmail
-        })
-    }
+    // const firebaseSubmitUserData = async () => {
+    //     console.log(`in firebaseSubmitUserData: userId = ${currentUser.uid}`)
+    //     await setDoc(doc(db, 'users', `${currentUser.uid}`), {
+    //         userFirstName: userSignUpState.userFirstName,
+    //         userLastName: userSignUpState.userLastName,
+    //         userEmail: userSignUpState.userEmail
+    //     })
+    // }
 
 
     // const firebaseSubmitProviderData = async (passedFirstName, passedLastName, passedCompanyName, passedDescription, passedEmail, passedPassword) => {
@@ -115,16 +72,23 @@ const SignUp = () => {
     // }
 
     const onUserSignUpSubmit = async (e) => {
+        var finalUser = null
         e.preventDefault()
         console.log(userSignUpState)
         if (userSignUpState.userFirstName && userSignUpState.userLastName && userSignUpState.userEmail && userSignUpState.userPassword && userSignUpState.userConfirmPassword) {
             if (userSignUpState.userPassword === userSignUpState.userConfirmPassword) {
-                // try {
-                setError('')
                 setLoading(true)
-                firebaseSignOut()
-                firebaseCreateUserEmail().then(() => {
-                    // if (currentUser) { firebaseSubmitUserData() }
+                await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userResponse) => {
+                    finalUser = userResponse.user
+                    alert(`Successfully created user with userId: ${finalUser.uid}`)
+                }).catch((error) => {
+                    console.log(`in signup/firebaseCreateUserEmail: Error Code ${error.code}: ${error.message}`)
+                    return
+                })
+                await setDoc(doc(db, 'users', finalUser.uid), {
+                    userFirstName: userSignUpState.userFirstName,
+                    userLastName: userSignUpState.userLastName,
+                    userEmail: userSignUpState.userEmail
                 })
             } else {
                 alert('Entered passwords do not match.')
@@ -136,6 +100,7 @@ const SignUp = () => {
             setError('Incomplete fields.')
             return
         }
+        console.log(`currentUser.uid: ${currentUser}`)
         setUserSignUpState({
             userFirstName: '',
             userLastName: '',
@@ -144,6 +109,9 @@ const SignUp = () => {
             userConfirmPassword: ''
         })
         setLoading(false)
+        console.log(`after SignUp currentUser: ${currentUser}`)
+        history.push('/')
+
     }
 
     const onProviderSignUpSubmit = (e) => {
@@ -154,9 +122,6 @@ const SignUp = () => {
                 try {
                     setError('')
                     setLoading(true)
-                    //const finalProviderEmail = providerSignUpState.providerEmail
-                    //const finalProviderPassword = providerSignUpState.providerPassword
-                    //firebaseCreateUserEmail(finalProviderEmail, finalProviderPassword)
                 } catch {
                     setError('Failed to create Provider account.')
                     console.log(error)
@@ -181,10 +146,6 @@ const SignUp = () => {
         })
         setLoading(false)
     }
-
-    // const firebaseSubmitUserData = async (passedFirstName, passedLastName, passedEmail) => {
-
-    // }
 
     return (
         <div className='eightyperc-container'>

@@ -1,10 +1,10 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { FirebaseContext } from '../contexts/FirebaseContext'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Navbar = () => {
 
-    const { currentUser } = useContext(FirebaseContext)
+    const { currentUser } = useContext(AuthContext)
 
     return (
         <header className='header'>
@@ -16,10 +16,10 @@ const Navbar = () => {
                     <div className='header-nav'>
                         <Link to='/services'><button>Services</button></Link>
                         <Link to='/about'><button>About</button></Link>
-                        {/* <button>Other</button> */}
-                        {/* <Link to='/signup'><button>Sign Up</button></Link> */}
-                        <Link to='/login'><button>Log In</button></Link>
-                        {currentUser && <Link to='/profile'><button>{currentUser.uid}</button></Link>}
+                        {
+                            currentUser ? <Link to='/account'><button>Account</button></Link>
+                                : <Link to='/login'><button>Log In</button></Link>
+                        }
                     </div>
                 </div>
             </div>

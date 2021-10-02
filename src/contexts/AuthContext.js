@@ -1,8 +1,30 @@
-// import { createContext, useContext, useState, useEffect } from "react"
-// import { auth } from '../firebase'
-// import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+import { createContext, useState, useEffect } from "react"
+import { auth } from '../firebase'
+import { onAuthStateChanged } from 'firebase/auth'
 
-// const AuthContext = createContext()
+export const AuthContext = createContext()
+
+export const AuthProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null)
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user !== null) {
+                console.log(`Signed in with: ${user.uid}`)
+                setCurrentUser(user)
+            } else {
+                console.log('Signed out')
+                setCurrentUser(null)
+            }
+        })
+    })
+
+    return (
+        <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
 
 // export function useAuth() {
 //     return useContext(AuthContext)
@@ -28,9 +50,5 @@
 //     //     signup
 //     // }
 
-//     return (
-//         <AuthContext.Provider value={{ currentUser, firebaseSignUp }}>
-//             {children}
-//         </AuthContext.Provider>
-//     )
+//     
 // }

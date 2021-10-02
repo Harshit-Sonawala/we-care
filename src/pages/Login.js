@@ -1,21 +1,23 @@
 import { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
-import { FirebaseContext } from '../contexts/FirebaseContext'
+import { Link, useHistory } from 'react-router-dom'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { AuthContext } from '../contexts/AuthContext'
 import { auth } from '../firebase'
+//import Account from './Account'
 import { Person } from '@material-ui/icons'
 import globalPrimaryColor from '../assets/colors'
 
 const Login = () => {
 
-    const { currentUser, setCurrentUser } = useContext(FirebaseContext)
+    const history = useHistory()
+
+    const { currentUser } = useContext(AuthContext)
 
     const [logInState, setlogInState] = useState({
         loginEmail: '',
         loginPassword: ''
     })
 
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
     const handleLoginChange = (e) => {
@@ -25,23 +27,18 @@ const Login = () => {
         })
     }
 
-    const onLoginSubmit = (e) => {
+    const onLoginSubmit = async (e) => {
         e.preventDefault()
         if (logInState.loginEmail && logInState.loginPassword) {
-            try {
-                setError('')
-                setLoading(true)
-                const finalLoginEmail = logInState.loginEmail
-                const finalLoginPassword = logInState.loginPassword
-                firebaseSignInEmail(finalLoginEmail, finalLoginPassword)
-            } catch {
-                setError('Failed to create user account.')
-                console.log(error)
+            await signInWithEmailAndPassword(auth, logInState.loginEmail, logInState.loginPassword).then((userResponse) => {
+                const finalUser = userResponse.user
+                alert(`Successfully logged in with finalUser.uid: ${finalUser.uid}`)
+            }).catch((error) => {
+                console.log(`in login/firebaseSignInEmail: Error Code ${error.code}: ${error.message}`)
                 return
-            }
+            })
         } else {
             alert('Please enter the Email and Password.')
-            setError('Incomplete fields.')
             return
         }
         setlogInState({
@@ -49,28 +46,8 @@ const Login = () => {
             loginPassword: ''
         })
         setLoading(false)
-    }
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setCurrentUser(user)
-            console.log(`signed in with: ${user.uid}`)
-        } else {
-            console.log('signed out')
-        }
-    })
-
-    const firebaseSignInEmail = async (passedEmail, passedPassword) => {
-        await signInWithEmailAndPassword(auth, passedEmail, passedPassword).then((userCredential) => {
-            const user = userCredential.user
-            setCurrentUser(user)
-            alert(`Successfully logged in user with userId: ${currentUser.uid}`)
-        }).catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            alert(`Error Code ${errorCode}: ${errorMessage}`)
-            return
-        })
+        console.log(`after Login currentUser: ${currentUser}`)
+        history.push('/')
     }
 
     return (
