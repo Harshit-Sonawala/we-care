@@ -5,6 +5,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 //import { AuthContext } from '../contexts/AuthContext'
 import { PersonAdd } from '@material-ui/icons'
+import LoadingGif from '../assets/images/loading.gif'
 import globalPrimaryColor from '../assets/colors'
 
 const SignUp = () => {
@@ -12,7 +13,7 @@ const SignUp = () => {
     const history = useHistory()
     const [loading, setLoading] = useState(false)
     //const { currentUser } = useContext(AuthContext)
-    const [showProviderForm, setShowProviderForm] = useState(false)
+    //const [showProviderForm, setShowProviderForm] = useState(false)
 
     const [userSignUpState, setUserSignUpState] = useState({
         userFirstName: '',
@@ -54,17 +55,19 @@ const SignUp = () => {
         console.log(userSignUpState)
         if (userSignUpState.userFirstName && userSignUpState.userLastName && userSignUpState.userEmail && userSignUpState.userPassword && userSignUpState.userConfirmPassword) {
             if (userSignUpState.userPassword === userSignUpState.userConfirmPassword) {
-                setLoading(true)
                 // Firebase Auth create new user:
+                setLoading(true)
                 await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userResponse) => {
                     finalUser = userResponse.user
                     alert(`Successfully created user with userId: ${finalUser.uid}`)
                     history.push('/')
                 }).catch((error) => {
                     alert(`in signup/firebaseCreateUserEmail: Error! Code ${error.code}: ${error.message}`)
+                    setLoading(false)
                     return
                 })
                 // Cloud Firestore add user data:
+                setLoading(true)
                 await setDoc(doc(db, 'users', finalUser.uid), {
                     userFirstName: userSignUpState.userFirstName,
                     userLastName: userSignUpState.userLastName,
@@ -134,68 +137,75 @@ const SignUp = () => {
     return (
         <div className='eightyperc-container'>
             <div className='card-type1 signup-card'>
-                <div className='ninetyfiveperc-container flex-container'>
-                    <form onSubmit={onUserSignUpSubmit} className='eightyperc-container'>
-                        <h2 className='heading-type3'>User Sign Up</h2>
-                        <div className='signup-flex-column'>
-                            <div className='signup-flex-row'>
-                                <p>Enter Firstname: </p>
-                                <input type='text'
-                                    name='userFirstName'
-                                    placeholder='John'
-                                    value={userSignUpState.userFirstName}
-                                    onChange={handleUserChange}
-                                />
-                            </div>
-                            <div className='signup-flex-row'>
-                                <p>Enter Lastname: </p>
-                                <input type='text'
-                                    name='userLastName'
-                                    placeholder='Doe'
-                                    value={userSignUpState.userLastName}
-                                    onChange={handleUserChange}
-                                />
-                            </div>
-                            <div className='signup-flex-row'>
-                                <p>Enter Email: </p>
-                                <input
-                                    type='text'
-                                    name='userEmail'
-                                    placeholder='johndoe@example.com'
-                                    value={userSignUpState.userEmail}
-                                    onChange={handleUserChange}
-                                />
-                            </div>
-                            <div className='signup-flex-row'>
-                                <p>Choose a Password: </p>
-                                <input
-                                    type='password'
-                                    name='userPassword'
-                                    value={userSignUpState.userPassword}
-                                    onChange={handleUserChange}
-                                />
-                            </div>
-                            <div className='signup-flex-row'>
-                                <p>Confirm Password: </p>
-                                <input
-                                    type='password'
-                                    name='userConfirmPassword'
-                                    value={userSignUpState.userConfirmPassword}
-                                    onChange={handleUserChange}
-                                />
-                            </div>
-                            <div className='signup-flex-row'>
-                                <div className='circle-avatar'>
-                                    <PersonAdd style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
+                {loading ? <img src={LoadingGif} className='loading-gif' alt='Loading...' style={{
+                    width: '70px',
+                    height: '70px',
+                    margin: 'auto',
+                    display: 'block'
+                }} /> :
+                    <div className='ninetyfiveperc-container flex-container'>
+                        <form onSubmit={onUserSignUpSubmit} className='eightyperc-container'>
+                            <h2 className='heading-type3'>User Sign Up</h2>
+                            <div className='signup-flex-column'>
+                                <div className='signup-flex-row'>
+                                    <p>Enter Firstname: </p>
+                                    <input type='text'
+                                        name='userFirstName'
+                                        placeholder='John'
+                                        value={userSignUpState.userFirstName}
+                                        onChange={handleUserChange}
+                                    />
                                 </div>
-                                <button value='Add a Photo' onClick={onAddPhotoClick}>Add a Photo</button>
+                                <div className='signup-flex-row'>
+                                    <p>Enter Lastname: </p>
+                                    <input type='text'
+                                        name='userLastName'
+                                        placeholder='Doe'
+                                        value={userSignUpState.userLastName}
+                                        onChange={handleUserChange}
+                                    />
+                                </div>
+                                <div className='signup-flex-row'>
+                                    <p>Enter Email: </p>
+                                    <input
+                                        type='text'
+                                        name='userEmail'
+                                        placeholder='johndoe@example.com'
+                                        value={userSignUpState.userEmail}
+                                        onChange={handleUserChange}
+                                    />
+                                </div>
+                                <div className='signup-flex-row'>
+                                    <p>Choose a Password: </p>
+                                    <input
+                                        type='password'
+                                        name='userPassword'
+                                        value={userSignUpState.userPassword}
+                                        onChange={handleUserChange}
+                                    />
+                                </div>
+                                <div className='signup-flex-row'>
+                                    <p>Confirm Password: </p>
+                                    <input
+                                        type='password'
+                                        name='userConfirmPassword'
+                                        value={userSignUpState.userConfirmPassword}
+                                        onChange={handleUserChange}
+                                    />
+                                </div>
+                                <div className='signup-flex-row'>
+                                    <div className='circle-avatar'>
+                                        <PersonAdd style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
+                                    </div>
+                                    <button value='Add a Photo' onClick={onAddPhotoClick}>Add a Photo</button>
+                                </div>
+                                <div className='signup-flex-row'>
+                                    <input type='submit' className='button' value='Submit' disabled={loading} />
+                                </div>
                             </div>
-                            <div className='signup-flex-row'>
-                                <input type='submit' className='button' value='Submit' disabled={loading} />
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                        </form>
+                    </div>
+                }
             </div>
 
             <div className='card-type1 signup-card'>
