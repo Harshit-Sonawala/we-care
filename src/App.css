@@ -28,7 +28,7 @@ Monaco
 }
 
 :root {
-  --primary-color: #1d8ae4;
+  --primary-color: #1fb3ee;
   --accent-color: #56cfff;
   --white: #faf0e6;
   --grey: #f4f4f4;
@@ -150,12 +150,12 @@ ol {
   list-style-type: none;
 }
 
-input {
+input, textarea {
   font-size: 20px;
-  font-family: 'Google Sans';
+  font-family: 'Montserrat';
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: none;
 }
 
@@ -164,7 +164,6 @@ input[type='text'], input[type='password'] {
   padding: 10px 15px;
   background: #f4f4f4;
   color: #000;
-  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   border: none;
@@ -177,7 +176,6 @@ input[type='submit'] {
   padding: 12px 100px;
   background: var(--primary-color);
   color: #fff;
-  font-family: 'Montserrat';
   font-size: 18px;
   text-decoration: none;
   border: none;
@@ -194,6 +192,19 @@ input[type='submit']:active {
   background: #f4f4f4;
   color: var(--primary-color);
   transition: all 0.1s ease;
+}
+
+textarea {
+  margin: auto;
+  padding: 10px 15px;
+  height: 300px;
+  background: #f4f4f4;
+  color: #000;
+  font-size: 18px;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  resize: none;
 }
 
 body {
@@ -225,7 +236,20 @@ body {
   overflow: hidden;
 }
 
-.header {
+.card-type1 {
+  flex: 0.33;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 22px;
+}
+
+.navbar {
   background-color: #fff;
   color: var(--primary-color);
   padding: 7px;
@@ -233,18 +257,39 @@ body {
   box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
 }
 
-.header-main {
+.navbar-main {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
 }
 
-.header-nav {
+.navbar-nav {
   display: flex;
   flex-flow: row wrap;
 }
 
+.logo {
+  height: 70px;
+  padding: 0;
+  margin: 0;
+}
+
+.footer {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
+}
+
+.footer-main {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Home Page */
 .showcase-main {
   display: flex;
   flex-flow: row wrap;
@@ -310,6 +355,45 @@ body {
   transition: all 0.1s ease;
 }
 
+.landing-card {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  min-height: 400px;
+  margin: 20px 0;
+  padding: auto;
+}
+
+.landing-content h1 {
+  color: var(--primary-color);
+}
+
+.landing-image {
+  width: 300px;
+  height: 300px;
+  margin: 20px;
+}
+
+/* Services Page */
+.service-card {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+  justify-content: space-evenly;
+}
+
+.service-card h3{
+  color: var(--primary-color);
+}
+
+.service-card p {
+  padding: 10px;
+  margin: 7px 0;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+}
+
 .category-main {
   margin: 10px auto;
   padding: 20px;
@@ -340,39 +424,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .category-card:hover {
   font-size: 24px;
   padding: 60px;
-}
-
-.footer {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0 7px 30px -10px rgba(150, 170, 180, 0.5);
-}
-
-.footer-main {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.card-type1 {
-  flex: 0.33;
-  margin: 10px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: space-evenly;
-  font-size: 22px;
 }
 
 .login-card {
@@ -450,8 +507,9 @@ body {
 .signup-flex-column {
   display: flex;
   flex-flow: column wrap;
-  justify-content: center;
+  justify-content: stretch;
   align-items: center;
+  width: 100%;
 }
 
 .signup-flex-row {
@@ -473,42 +531,4 @@ body {
 
 .signup-card2 p{
   width: auto;
-}
-
-.service-card {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: stretch;
-  justify-content: space-evenly;
-}
-
-.service-card h3{
-  color: var(--primary-color);
-}
-
-.service-card p {
-  padding: 10px;
-  margin: 7px 0;
-  border-radius: 10px;
-  background-color: #f4f4f4;
-}
-
-.landing-card {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-evenly;
-  min-height: 400px;
-  margin: 20px 0;
-  padding: auto;
-}
-
-.landing-content h1 {
-  color: var(--primary-color);
-}
-
-.landing-image {
-  width: 300px;
-  height: 300px;
-  margin: 20px;
 }

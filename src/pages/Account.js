@@ -29,7 +29,8 @@ const Account = () => {
             setUserData({
                 ...userData,
                 userDataFirstName: `${docSnap.data().userFirstName}`,
-                userDataLastName: `${docSnap.data().userLastName}`
+                userDataLastName: `${docSnap.data().userLastName}`,
+                userDataEmail: `${docSnap.data().userEmail}`
             })
         } else {
             // doc.data() will be undefined in this case

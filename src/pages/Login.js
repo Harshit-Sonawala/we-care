@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { AuthContext } from '../contexts/AuthContext'
+//import { AuthContext } from '../contexts/AuthContext'
 import { auth } from '../firebase'
 //import Account from './Account'
 import { Person } from '@material-ui/icons'
@@ -10,15 +10,12 @@ import globalPrimaryColor from '../assets/colors'
 const Login = () => {
 
     const history = useHistory()
-
-    const { currentUser } = useContext(AuthContext)
-
+    //const { currentUser } = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
     const [logInState, setlogInState] = useState({
         loginEmail: '',
         loginPassword: ''
     })
-
-    const [loading, setLoading] = useState(false)
 
     const handleLoginChange = (e) => {
         setlogInState({
@@ -33,8 +30,14 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, logInState.loginEmail, logInState.loginPassword).then((userResponse) => {
                 const finalUser = userResponse.user
                 alert(`Successfully logged in with finalUser.uid: ${finalUser.uid}`)
+                history.push('/')
             }).catch((error) => {
-                console.log(`in login/firebaseSignInEmail: Error Code ${error.code}: ${error.message}`)
+                alert(`in login/firebaseSignInEmail: Error Code ${error.code}: ${error.message}`)
+                setlogInState({
+                    loginEmail: '',
+                    loginPassword: ''
+                })
+                setLoading(false)
                 return
             })
         } else {
@@ -46,8 +49,6 @@ const Login = () => {
             loginPassword: ''
         })
         setLoading(false)
-        console.log(`after Login currentUser: ${currentUser}`)
-        history.push('/')
     }
 
     return (

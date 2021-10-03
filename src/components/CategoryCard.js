@@ -4,7 +4,7 @@ const CategoryCard = ({ title, bgImg }) => {
         backgroundImage: `url(${bgImg})`,
         backgroundPosition: `center`,
         backgroundSize: `cover`,
-        backgroundRepeat: `no-repeat`,
+        backgroundRepeat: `no-repeat`
     }
 
     return (

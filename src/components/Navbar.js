@@ -1,19 +1,20 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
+import WeCareLogoBig from '../assets/images/WeCareLogoBig.png'
 
 const Navbar = () => {
 
     const { currentUser } = useContext(AuthContext)
 
     return (
-        <header className='header'>
+        <header className='navbar'>
             <div className='eightyperc-container'>
-                <div className='header-main'>
+                <div className='navbar-main'>
                     <Link to='/'>
-                        <h1>WeCare</h1>
+                        <img className="logo" src={WeCareLogoBig} alt="WeCare" />
                     </Link>
-                    <div className='header-nav'>
+                    <div className='navbar-nav'>
                         <Link to='/services'><button>Services</button></Link>
                         <Link to='/about'><button>About</button></Link>
                         {
