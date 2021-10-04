@@ -18,10 +18,13 @@ const Account = () => {
         userDataEmail: '',
     })
 
+    // Run Read function on app mount:
     useEffect(() => {
         fireStoreRead()
+        // eslint-disable-next-line
     }, [])
 
+    // Read Firestore for account info:
     const fireStoreRead = async () => {
         setLoading(true)
         const docRef = doc(db, 'users', currentUser.uid)
@@ -35,7 +38,6 @@ const Account = () => {
                 userDataEmail: `${docSnap.data().userEmail}`
             })
         } else {
-            // doc.data() will be undefined in this case
             console.log("No such document found!")
         }
         setLoading(false)
@@ -68,7 +70,6 @@ const Account = () => {
                                 <h3 className='heading-type3'>Your Account</h3>
                                 <p>{`Current user: ${userData.userDataFirstName} ${userData.userDataLastName}`}</p>
                                 <p>{`Email: ${userData.userDataEmail}`}</p>
-                                {/* <p>Enter Email:</p> */}
                                 <input type='submit' className='button' value='Log Out' />
                             </form>
                         </div>

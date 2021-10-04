@@ -82,7 +82,7 @@ const Login = () => {
                                 onChange={handleLoginChange}
                             />
                             <input type='submit' className='button' value='Submit' disabled={loading} />
-                            <p className='centerText'>Forgot Password?</p>
+                            <p className='center-text'>Forgot Password?</p>
                         </form>
                     </div>
                 }

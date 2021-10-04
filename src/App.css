@@ -195,9 +195,9 @@ input[type='submit']:active {
 }
 
 textarea {
-  margin: auto;
+  margin: 10px 5px;
   padding: 10px 15px;
-  height: 300px;
+  min-height: 250px;
   background: #f4f4f4;
   color: #000;
   font-size: 18px;
@@ -213,7 +213,7 @@ body {
   font-size: 19;
 }
 
-.centerText {
+.center-text {
   text-align: center;
 }
 
@@ -493,7 +493,6 @@ body {
 .signup-card p{
   display: inline;
   width: 200px;
-  text-align: right;
 }
 
 .signup-card h2 {
@@ -511,12 +510,16 @@ body {
   width: 400px;
 }
 
+.signup-description {
+  margin: 10px;
+  padding: 10px;
+}
+
 .signup-flex-column {
   display: flex;
   flex-flow: column wrap;
-  justify-content: stretch;
-  align-items: center;
-  width: 100%;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .signup-flex-row {
@@ -538,4 +541,9 @@ body {
 
 .signup-card2 p{
   width: auto;
+}
+
+.about p {
+  padding: 10px;
+  margin: 10px;
 }
