@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-//import { AuthContext } from '../contexts/AuthContext'
-import { auth } from '../firebase'
+import { auth } from '../firebaseInit'
 //import Account from './Account'
 import { Person } from '@material-ui/icons'
-import LoadingGif from '../assets/images/loading.gif'
-import globalPrimaryColor from '../assets/colors'
+import Loading from '../components/Loading'
+import { globalIconStyle } from '../assets/GlobalStyles'
 
 const Login = () => {
 
@@ -56,32 +55,40 @@ const Login = () => {
     return (
         <div className='eightyperc-container'>
             <div className='card-type1 login-card'>
-                {loading ? <img src={LoadingGif} className='loading-gif' alt='Loading...' style={{
-                    width: '70px',
-                    height: '70px',
-                    margin: 'auto',
-                    display: 'block'
-                }} /> :
+                {loading ? <Loading /> :
                     <div className='ninetyfiveperc-container flex-container'>
                         <div className='circle-avatar'>
-                            <Person style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
+                            <Person style={globalIconStyle} />
                         </div>
                         <form onSubmit={onLoginSubmit} className='eightyperc-container'>
                             <h2 className='heading-type3'>Log in</h2>
-                            <p>Enter Email:</p>
-                            <input type='text'
-                                name='loginEmail'
-                                placeholder='abc@example.com'
-                                value={logInState.loginEmail}
-                                onChange={handleLoginChange}
-                            />
-                            <p>Enter Password:</p>
-                            <input type='password'
-                                name='loginPassword'
-                                value={logInState.loginPassword}
-                                onChange={handleLoginChange}
-                            />
-                            <input type='submit' className='button' value='Submit' disabled={loading} />
+                            <div className='login-flex-column'>
+                                <div className="login-flex-row">
+                                    <p>Enter Email:</p>
+                                </div>
+                                <div className="login-flex-row">
+                                    <input type='text'
+                                        name='loginEmail'
+                                        placeholder='abc@example.com'
+                                        value={logInState.loginEmail}
+                                        onChange={handleLoginChange}
+                                    />
+                                </div>
+                                <div className="login-flex-row">
+                                    <p>Enter Password:</p>
+                                </div>
+                                <div className="login-flex-row">
+                                    <input type='password'
+                                        name='loginPassword'
+                                        value={logInState.loginPassword}
+                                        onChange={handleLoginChange}
+                                    />
+                                </div>
+                                <div className="login-flex-row">
+                                    <input type='submit' className='button' value='Submit' disabled={loading} />
+                                </div>
+
+                            </div>
                             <p className='center-text'>Forgot Password?</p>
                         </form>
                     </div>

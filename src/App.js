@@ -14,10 +14,7 @@ import Footer from './components/Footer'
 
 const App = () => {
 
-    //const [currentUser, setCurrentUser] = useState()
-
     return (
-        //<FirebaseContext.Provider value={{ currentUser, setCurrentUser }}>
         <AuthProvider>
             <Router>
                 <div className='main'>

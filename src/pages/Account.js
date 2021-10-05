@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { signOut } from 'firebase/auth'
-import { auth, db } from '../firebase'
+import { auth, db } from '../firebaseInit'
 import { doc, getDoc } from "firebase/firestore";
 import { Redirect } from 'react-router'
 import { Person } from '@material-ui/icons'
-import LoadingGif from '../assets/images/loading.gif'
-import globalPrimaryColor from '../assets/colors'
+import Loading from '../components/Loading';
+import { globalIconStyle } from '../assets/GlobalStyles'
 
 const Account = () => {
 
@@ -16,6 +16,15 @@ const Account = () => {
         userDataFirstName: '',
         userDataLastName: '',
         userDataEmail: '',
+    })
+
+    const [providerData, setProviderData] = useState({
+        providerDataFirstName: '',
+        providerDataLastName: '',
+        providerDataCompanyName: '',
+        providerDataEmail: '',
+        providerDataNumber: '',
+        providerDataDescription: '',
     })
 
     // Run Read function on app mount:
@@ -30,7 +39,7 @@ const Account = () => {
         const docRef = doc(db, 'users', currentUser.uid)
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
-            console.log("Fetched Document data:", docSnap.data())
+            console.log("Fetched User data:", docSnap.data())
             setUserData({
                 ...userData,
                 userDataFirstName: `${docSnap.data().userFirstName}`,
@@ -38,7 +47,21 @@ const Account = () => {
                 userDataEmail: `${docSnap.data().userEmail}`
             })
         } else {
-            console.log("No such document found!")
+            console.log("No such user found, searching providers...")
+            const docRef = doc(db, 'providers', currentUser.uid)
+            const docSnap = await getDoc(docRef)
+            if (docSnap.exists()) {
+                console.log("Fetched Provider data:", docSnap.data())
+                setProviderData({
+                    ...providerData,
+                    providerDataFirstName: `${docSnap.data().providerFirstName}`,
+                    providerDataLastName: `${docSnap.data().providerLastName}`,
+                    providerDataCompanyName: `${docSnap.data().providerCompanyName}`,
+                    providerDataEmail: `${docSnap.data().providerEmail}`,
+                    providerDataNumber: `${docSnap.data().providerNumber}`,
+                    providerDataDescription: `${docSnap.data().providerDescription}`
+                })
+            }
         }
         setLoading(false)
     }
@@ -56,20 +79,23 @@ const Account = () => {
         return (
             <div className='eightyperc-container'>
                 <div className='card-type1 login-card'>
-                    {loading ? <img src={LoadingGif} className='loading-gif' alt='Loading...' style={{
-                        width: '70px',
-                        height: '70px',
-                        margin: 'auto',
-                        display: 'block'
-                    }} /> :
+                    {loading ? <Loading /> :
                         <div className='ninetyfiveperc-container flex-container'>
                             <div className='circle-avatar'>
-                                <Person style={{ color: globalPrimaryColor, height: '70px', width: '70px' }} />
+                                <Person style={globalIconStyle} />
                             </div>
                             <form onSubmit={onSignOutSubmit} className='eightyperc-container'>
                                 <h3 className='heading-type3'>Your Account</h3>
-                                <p>{`Current user: ${userData.userDataFirstName} ${userData.userDataLastName}`}</p>
-                                <p>{`Email: ${userData.userDataEmail}`}</p>
+                                {userData.userDataEmail ? <>
+                                    <p>{`Current user: ${userData.userDataFirstName} ${userData.userDataLastName}`}</p>
+                                    <p>{`Email: ${userData.userDataEmail}`}</p>
+                                </> : <>
+                                    <p>{`Company Account Manager: ${providerData.providerDataFirstName} ${providerData.providerDataLastName}`}</p>
+                                    <p>{`Company Name: ${providerData.providerDataCompanyName}`}</p>
+                                    <p>{`Email: ${providerData.providerDataEmail}`}</p>
+                                    <p>{`Contact No: ${providerData.providerDataNumber}`}</p>
+                                    <p>{`About: ${providerData.providerDataDescription}`}</p>
+                                </>}
                                 <input type='submit' className='button' value='Log Out' />
                             </form>
                         </div>

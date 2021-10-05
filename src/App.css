@@ -30,9 +30,9 @@ Monaco
 :root {
   --primary-color: #1fb3ee;
   --accent-color: #56cfff;
-  --white: #faf0e6;
   --grey: #f4f4f4;
   --dark-grey: #e4e4e4;
+  --darker-grey: #717171;
 }
 
 /* reset */
@@ -195,9 +195,9 @@ input[type='submit']:active {
 }
 
 textarea {
-  margin: 10px 5px;
-  padding: 10px 15px;
-  min-height: 250px;
+  margin: 10px 10px;
+  padding: 10px;
+  min-height: 200px;
   background: #f4f4f4;
   color: #000;
   font-size: 18px;
@@ -249,11 +249,36 @@ body {
   font-size: 22px;
 }
 
+.card-type2 {
+  flex: 0.40;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 22px;
+}
+
+.circle-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  margin: 10px;
+  padding: 10px;
+  background: #f4f4f4;
+  border-radius: 50%;
+}
+
 .loading-gif {
-  width: '70px';
-  height: '70px';
-  margin: 'auto';
-  display: 'block';
+  width: 70px;
+  height: 70px;
+  margin: auto;
+  display: block;
 }
 
 .navbar {
@@ -446,6 +471,29 @@ body {
   font-size: 22px;
 }
 
+.login-flex-column {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.login-flex-row {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.login-card2 {
+  margin: 20px auto;
+  padding: 15px;
+  width: 600px;
+  height: auto;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+}
+
 .login-card h2 {
   text-align: center;
 }
@@ -455,64 +503,19 @@ body {
 }
 
 .login-card input[type='text'], .login-card input[type='password'] {
-  width: 400px;
+  flex: 1;
+  /* width: 400px; */
 }
 
 .login-card input[type='submit'] {
   margin: 30px 5px 20px;
-  width: 400px;
-}
-
-.login-card2 {
-  margin: 20px auto;
-  padding: 5px;
-  width: 600px;
-  height: auto;
-  justify-content: center;
-  font-size: 22px;
-  text-align: center;
-}
-
-.circle-avatar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  width: 100px;
-  margin: 10px;
-  padding: 10px;
-  background: #f4f4f4;
-  border-radius: 50%;
+  flex: 1;
+  /* width: 400px; */
 }
 
 .signup-card {
   margin: 20px auto;
   width: 700px;
-}
-
-.signup-card p{
-  display: inline;
-  width: 200px;
-}
-
-.signup-card h2 {
-  text-align: center;
-}
-
-.signup-card input[type='text'], .signup-card input[type='password'] {
-  width: 250px;
-  margin: 10px;
-}
-
-.signup-card input[type='submit'] {
-  align-self: stretch;
-  margin: 10px;
-  width: 400px;
-}
-
-.signup-description {
-  margin: 10px;
-  padding: 10px;
 }
 
 .signup-flex-column {
@@ -537,6 +540,45 @@ body {
   justify-content: center;
   font-size: 22px;
   text-align: center;
+}
+
+.signup-card p{
+  display: inline;
+  flex: 1;
+  padding: 10px;
+  margin: 0 10px;
+}
+
+.signup-instruction {
+  padding: 0px 10px 20px 10px;
+  margin: 15px 10px;
+  font-size: 19px;
+  text-align: center;
+  color: var(--darker-grey);
+}
+
+.signup-card h2 {
+  text-align: center;
+}
+
+.signup-card input[type='text'], .signup-card input[type='password'] {
+  flex: 1.2;
+  margin: 10px;
+}
+
+.signup-card input[type='submit'] {
+  align-self: stretch;
+  margin: 10px;
+  width: 400px;
+}
+
+.signup-description {
+  margin: 10px 0;
+}
+
+.signup-description p{
+  margin: 5px 10px 0 10px;
+  padding: 5px 10px 0 10px;
 }
 
 .signup-card2 p{
