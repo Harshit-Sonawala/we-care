@@ -1,15 +1,17 @@
 import { useState, useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
-import { signOut } from 'firebase/auth'
+import { signOut, deleteUser } from 'firebase/auth'
 import { auth, db } from '../firebaseInit'
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore"
 import { Redirect } from 'react-router'
 import { Person } from '@material-ui/icons'
-import Loading from '../components/Loading';
+import Loading from '../components/Loading'
 import { globalIconStyle } from '../assets/GlobalStyles'
 
 const Account = () => {
 
+    const history = useHistory()
     const { currentUser, setCurrentUser } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
@@ -66,13 +68,26 @@ const Account = () => {
         setLoading(false)
     }
 
-    const onSignOutSubmit = () => {
+    const onSignOutSubmit = (e) => {
+        e.preventDefault()
         signOut(auth).then(() => {
             setCurrentUser(null)
             console.log('Sign Out Successful.')
         }).catch((error) => {
             console.log(error)
         });
+    }
+
+    const onDeleteUser = async (e) => {
+        e.preventDefault()
+        const user = auth.currentUser
+        await deleteDoc(doc(db, 'users', currentUser.uid))
+        deleteUser(user).then(() => {
+            alert('Successfully Deleted!')
+            history.push('/login')
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     if (currentUser !== null) {
@@ -98,6 +113,7 @@ const Account = () => {
                                 </>}
                                 <input type='submit' className='button' value='Log Out' />
                             </form>
+                            <button onClick={onDeleteUser}>Delete Account</button>
                         </div>
                     }
                 </div>

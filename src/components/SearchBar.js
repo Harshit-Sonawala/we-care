@@ -4,19 +4,20 @@ import { Search } from '@material-ui/icons'
 const SearchBar = () => {
     const [searchQuery, setQuery] = useState('')
 
-    const onSubmit = (e) => {
+    const onSearchSubmit = (e) => {
         e.preventDefault()
         if (!searchQuery) {
             alert('Please enter the search query.')
             return
+        } else {
+            console.log(`Search Query: ${searchQuery}`)
         }
-
         // Clear form after entry
         setQuery('')
     }
 
     return (
-        <form className='searchbar-form' onSubmit={onSubmit}>
+        <form className='searchbar-form' onSubmit={onSearchSubmit}>
             <input type='text'
                 placeholder='Search for services...'
                 value={searchQuery}

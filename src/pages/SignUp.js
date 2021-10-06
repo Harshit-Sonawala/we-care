@@ -52,8 +52,8 @@ const SignUp = () => {
     }
 
     const onUserSignUpSubmit = async (e, currentUser) => {
-        var finalUser = null
         e.preventDefault()
+        var finalUser = null
         if (userSignUpState.userFirstName && userSignUpState.userLastName && userSignUpState.userEmail && userSignUpState.userPassword && userSignUpState.userConfirmPassword) {
             if (userSignUpState.userPassword === userSignUpState.userConfirmPassword) {
                 // Firebase Auth create new user:
@@ -105,8 +105,8 @@ const SignUp = () => {
     }
 
     const onProviderSignUpSubmit = async (e) => {
-        var finalProvider = null
         e.preventDefault()
+        var finalProvider = null
         if (providerSignUpState.providerFirstName && providerSignUpState.providerLastName && providerSignUpState.providerEmail && providerSignUpState.providerCompanyName && providerSignUpState.providerDescription && providerSignUpState.providerPassword && providerSignUpState.providerConfirmPassword) {
             if (providerSignUpState.providerPassword === providerSignUpState.providerConfirmPassword) {
                 // Firebase Auth create new user:
