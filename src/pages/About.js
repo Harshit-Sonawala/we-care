@@ -2,7 +2,7 @@ const About = () => {
     return (
         <div className='eightyperc-container'>
             <div className='card-type1 eightyperc-container about'>
-                <div className='ninetyfiveperc-container signup-flex-column'>
+                <div className='ninetyfiveperc-container flex-column-stretch'>
                     <h2 className='heading-type3'>About Us</h2>
                     <p>We at WeCare provide the best in class home services for all of your needs.</p>
                     <p>It is a platform to make our urban lives more fulfilling by solving all of our home and personal needs from a single place.</p>

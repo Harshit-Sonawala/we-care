@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../firebaseInit'
-//import Account from './Account'
+import { doc, getDoc } from 'firebase/firestore'
+import { auth, db } from '../firebaseInit'
 import { Person } from '@material-ui/icons'
 import Loading from '../components/Loading'
 import { globalIconStyle } from '../assets/GlobalStyles'
@@ -10,7 +11,7 @@ import { globalIconStyle } from '../assets/GlobalStyles'
 const Login = () => {
 
     const history = useHistory()
-    //const { currentUser } = useContext(AuthContext)
+    const { setIsProvider } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [logInState, setlogInState] = useState({
         loginEmail: '',
@@ -28,8 +29,13 @@ const Login = () => {
         e.preventDefault()
         if (logInState.loginEmail && logInState.loginPassword) {
             setLoading(true)
-            await signInWithEmailAndPassword(auth, logInState.loginEmail, logInState.loginPassword).then((userResponse) => {
+            await signInWithEmailAndPassword(auth, logInState.loginEmail, logInState.loginPassword).then(async (userResponse) => {
                 const finalUser = userResponse.user
+                const docRef = doc(db, 'providers', finalUser.uid)
+                const docSnap = await getDoc(docRef)
+                if (docSnap.exists()) {
+                    setIsProvider(true)
+                }
                 alert(`Successfully logged in with finalUser.uid: ${finalUser.uid}`)
                 history.push('/')
             }).catch((error) => {
@@ -56,17 +62,17 @@ const Login = () => {
         <div className='eightyperc-container'>
             <div className='card-type1 login-card'>
                 {loading ? <Loading /> :
-                    <div className='ninetyfiveperc-container flex-container'>
+                    <div className='ninetyfiveperc-container flex-column'>
                         <div className='circle-avatar'>
                             <Person style={globalIconStyle} />
                         </div>
                         <form onSubmit={onLoginSubmit} className='eightyperc-container'>
                             <h2 className='heading-type3'>Log in</h2>
-                            <div className='login-flex-column'>
-                                <div className="login-flex-row">
+                            <div className='flex-column-stretch'>
+                                <div className="flex-row left-align">
                                     <p>Enter Email:</p>
                                 </div>
-                                <div className="login-flex-row">
+                                <div className="flex-row">
                                     <input type='text'
                                         name='loginEmail'
                                         placeholder='abc@example.com'
@@ -74,17 +80,17 @@ const Login = () => {
                                         onChange={handleLoginChange}
                                     />
                                 </div>
-                                <div className="login-flex-row">
+                                <div className="flex-row left-align">
                                     <p>Enter Password:</p>
                                 </div>
-                                <div className="login-flex-row">
+                                <div className="flex-row">
                                     <input type='password'
                                         name='loginPassword'
                                         value={logInState.loginPassword}
                                         onChange={handleLoginChange}
                                     />
                                 </div>
-                                <div className="login-flex-row">
+                                <div className="flex-row">
                                     <input type='submit' className='button' value='Submit' disabled={loading} />
                                 </div>
 

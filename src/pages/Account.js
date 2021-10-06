@@ -12,7 +12,7 @@ import { globalIconStyle } from '../assets/GlobalStyles'
 const Account = () => {
 
     const history = useHistory()
-    const { currentUser, setCurrentUser } = useContext(AuthContext)
+    const { currentUser, setCurrentUser, isProvider, setIsProvider } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
         userDataFirstName: '',
@@ -38,22 +38,22 @@ const Account = () => {
     // Read Firestore for account info:
     const fireStoreRead = async () => {
         setLoading(true)
-        const docRef = doc(db, 'users', currentUser.uid)
+        var getWhich = 'users'
+        if (isProvider) {
+            getWhich = 'providers'
+        }
+        const docRef = doc(db, getWhich, currentUser.uid)
         const docSnap = await getDoc(docRef)
         if (docSnap.exists()) {
-            console.log("Fetched User data:", docSnap.data())
-            setUserData({
-                ...userData,
-                userDataFirstName: `${docSnap.data().userFirstName}`,
-                userDataLastName: `${docSnap.data().userLastName}`,
-                userDataEmail: `${docSnap.data().userEmail}`
-            })
-        } else {
-            console.log("No such user found, searching providers...")
-            const docRef = doc(db, 'providers', currentUser.uid)
-            const docSnap = await getDoc(docRef)
-            if (docSnap.exists()) {
-                console.log("Fetched Provider data:", docSnap.data())
+            console.log(`Fetched ${getWhich} data:`, docSnap.data())
+            if (!isProvider) {
+                setUserData({
+                    ...userData,
+                    userDataFirstName: `${docSnap.data().userFirstName}`,
+                    userDataLastName: `${docSnap.data().userLastName}`,
+                    userDataEmail: `${docSnap.data().userEmail}`
+                })
+            } else {
                 setProviderData({
                     ...providerData,
                     providerDataFirstName: `${docSnap.data().providerFirstName}`,
@@ -64,6 +64,8 @@ const Account = () => {
                     providerDataDescription: `${docSnap.data().providerDescription}`
                 })
             }
+        } else {
+            console.log(`No such ${getWhich} found.`)
         }
         setLoading(false)
     }
@@ -72,6 +74,7 @@ const Account = () => {
         e.preventDefault()
         signOut(auth).then(() => {
             setCurrentUser(null)
+            setIsProvider(false)
             console.log('Sign Out Successful.')
         }).catch((error) => {
             console.log(error)
@@ -93,27 +96,54 @@ const Account = () => {
     if (currentUser !== null) {
         return (
             <div className='eightyperc-container'>
-                <div className='card-type1 login-card'>
+                <div class="card-type1 flex-column">
+                    <div class="section1">
+                        <h3>Padding, Margin, Borders in CSS</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, aspernatur.</p>
+                        <div class="circle1">Test</div>
+                    </div>
+
+                    <div class="section2">
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum aspernatur exercitationem cupiditate nobis nisi quo nam, provident harum similique sunt. Deleniti quidem aliquam excepturi, temporibus voluptatibus sed quaerat repellat ut?</p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum aspernatur exercitationem cupiditate nobis nisi quo nam, provident harum similique sunt. Deleniti quidem aliquam excepturi, temporibus voluptatibus sed quaerat repellat ut?</p>
+                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum aspernatur exercitationem cupiditate nobis nisi quo nam, provident harum similique sunt. Deleniti quidem aliquam excepturi, temporibus voluptatibus sed quaerat repellat ut?</p>
+                    </div>
+                </div>
+                <div className='card-type1 account-card'>
                     {loading ? <Loading /> :
-                        <div className='ninetyfiveperc-container flex-container'>
-                            <div className='circle-avatar'>
-                                <Person style={globalIconStyle} />
+                        <div className='eightyperc-container flex-column-stretch'>
+                            {!isProvider ? <>
+                                <div className="flex-row">
+                                    <div className='circle-avatar'>
+                                        <Person style={globalIconStyle} />
+                                    </div>
+                                </div>
+                                <h3 className='heading-type3 center-text'>{userData.userDataFirstName} {userData.userDataLastName}</h3>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Email:</p><p className='para-type1'>{userData.userDataEmail}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Address:</p><p className='para-type1'>{userData.userDataEmail}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Phone Number:</p><p className='para-type1'>{userData.userDataEmail}</p>
+                                </div>
+                            </> : <>
+                                <div className="flex-row">
+                                    <div className='circle-avatar'>
+                                        <Person style={globalIconStyle} />
+                                    </div>
+                                </div>
+                                <h3 className='heading-type3 center-text'>{providerData.providerDataCompanyName}</h3>
+                                <p className='para-type1'>Company Account Manager: {providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
+                                <p className='para-type1'>Email: {providerData.providerDataEmail}</p>
+                                <p className='para-type1'>Contact No: {providerData.providerDataNumber}</p>
+                                <p className='para-type1'>About: {providerData.providerDataDescription}</p>
+                            </>}
+                            <div className="flex-row">
+                                <button className='button-type1' onClick={onSignOutSubmit}>Log Out</button>
+                                <button className='button-type2' onClick={onDeleteUser}>Delete Account</button>
                             </div>
-                            <form onSubmit={onSignOutSubmit} className='eightyperc-container'>
-                                <h3 className='heading-type3'>Your Account</h3>
-                                {userData.userDataEmail ? <>
-                                    <p>{`Current user: ${userData.userDataFirstName} ${userData.userDataLastName}`}</p>
-                                    <p>{`Email: ${userData.userDataEmail}`}</p>
-                                </> : <>
-                                    <p>{`Company Account Manager: ${providerData.providerDataFirstName} ${providerData.providerDataLastName}`}</p>
-                                    <p>{`Company Name: ${providerData.providerDataCompanyName}`}</p>
-                                    <p>{`Email: ${providerData.providerDataEmail}`}</p>
-                                    <p>{`Contact No: ${providerData.providerDataNumber}`}</p>
-                                    <p>{`About: ${providerData.providerDataDescription}`}</p>
-                                </>}
-                                <input type='submit' className='button' value='Log Out' />
-                            </form>
-                            <button onClick={onDeleteUser}>Delete Account</button>
                         </div>
                     }
                 </div>

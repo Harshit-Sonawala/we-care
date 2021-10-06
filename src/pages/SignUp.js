@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
+import { AuthContext } from '../contexts/AuthContext'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebaseInit'
@@ -11,6 +12,7 @@ import { Switch as MaterialSwitch } from '@material-ui/core'
 const SignUp = () => {
 
     const history = useHistory()
+    const { isProvider, setIsProvider } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [showProviderForm, setShowProviderForm] = useState(false)
 
@@ -33,6 +35,11 @@ const SignUp = () => {
         providerConfirmPassword: ''
     })
 
+    useEffect(() => {
+        console.log(`isProvider: ${isProvider}`)
+        // eslint-disable-next-line
+    }, [])
+
     const handleUserChange = (e) => {
         setUserSignUpState({
             ...userSignUpState,
@@ -51,7 +58,7 @@ const SignUp = () => {
         setShowProviderForm(e.target.checked)
     }
 
-    const onUserSignUpSubmit = async (e, currentUser) => {
+    const onUserSignUpSubmit = async (e) => {
         e.preventDefault()
         var finalUser = null
         if (userSignUpState.userFirstName && userSignUpState.userLastName && userSignUpState.userEmail && userSignUpState.userPassword && userSignUpState.userConfirmPassword) {
@@ -61,7 +68,7 @@ const SignUp = () => {
                 await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userResponse) => {
                     finalUser = userResponse.user
                     alert(`Successfully created user with userId: ${finalUser.uid}`)
-                    console.log(`currentUser: ${currentUser}`)
+                    setIsProvider(false)
                     history.push('/')
                 }).catch((error) => {
                     alert(`in signup/firebaseCreateUserEmail: Error! Code ${error.code}: ${error.message}`)
@@ -114,6 +121,7 @@ const SignUp = () => {
                 await createUserWithEmailAndPassword(auth, providerSignUpState.providerEmail, providerSignUpState.providerPassword).then((providerResponse) => {
                     finalProvider = providerResponse.user
                     alert(`Successfully created provider with userId: ${finalProvider.uid}`)
+                    setIsProvider(true)
                     history.push('/')
                 }).catch((error) => {
                     alert(`in signup/firebaseCreateProviderEmail: Error! Code ${error.code}: ${error.message}`)
@@ -172,7 +180,7 @@ const SignUp = () => {
     return (
         <div className='eightyperc-container'>
             <div className='card-type1 signup-card signup-card2'>
-                <div className='signup-flex-row'>
+                <div className='flex-row'>
                     <p>Sign up as a Service Provider?</p>
                     <MaterialSwitch onChange={handleSwitchCheck} color='primary' />
                 </div>
@@ -180,14 +188,14 @@ const SignUp = () => {
             {showProviderForm ?
                 <div className='card-type2 signup-card'>
                     {loading ? <Loading /> :
-                        <div className='ninetyfiveperc-container flex-container'>
+                        <div className='ninetyfiveperc-container flex-column'>
                             <form onSubmit={onProviderSignUpSubmit} className='ninetyfiveperc-container'>
                                 <h2 className='heading-type3'>Provider Sign Up</h2>
-                                <div className='signup-flex-column'>
-                                    <div className='signup-flex-row'>
+                                <div className='flex-column-stretch'>
+                                    <div className='flex-row'>
                                         <p className='signup-instruction'>Please fill in the following details. All fields are compulsory.</p>
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Firstname: </p>
                                         <input type='text'
                                             name='providerFirstName'
@@ -196,7 +204,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Lastname: </p>
                                         <input
                                             type='text'
@@ -206,7 +214,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Company Name: </p>
                                         <input
                                             type='text'
@@ -216,7 +224,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Email: </p>
                                         <input
                                             type='text'
@@ -226,7 +234,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Contact No.: </p>
                                         <input
                                             type='text'
@@ -236,7 +244,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-column signup-description'>
+                                    <div className='flex-column-stretch signup-description'>
                                         <p>Enter a short description about your company: </p>
                                         <textarea
                                             name='providerDescription'
@@ -245,7 +253,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Choose a Password: </p>
                                         <input
                                             type='password'
@@ -254,7 +262,7 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Confirm Password: </p>
                                         <input
                                             type='password'
@@ -263,13 +271,13 @@ const SignUp = () => {
                                             onChange={handleProviderChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <div className='circle-avatar'>
                                             <PersonAdd style={globalIconStyle} />
                                         </div>
                                         <button value='Add a Photo'>Add a Photo</button>
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <input type='submit' className='button' value='Submit' disabled={loading} />
                                     </div>
                                 </div>
@@ -280,14 +288,14 @@ const SignUp = () => {
                 :
                 <div className='card-type1 signup-card'>
                     {loading ? <Loading /> :
-                        <div className='ninetyfiveperc-container flex-container'>
+                        <div className='ninetyfiveperc-container flex-column'>
                             <form onSubmit={onUserSignUpSubmit} className='eightyperc-container'>
                                 <h2 className='heading-type3'>User Sign Up</h2>
-                                <div className='signup-flex-column'>
-                                    <div className='signup-flex-row'>
+                                <div className='flex-column-stretch'>
+                                    <div className='flex-row'>
                                         <p className='signup-instruction'>Please fill in the following details. All fields are compulsory.</p>
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Firstname: </p>
                                         <input type='text'
                                             name='userFirstName'
@@ -296,7 +304,7 @@ const SignUp = () => {
                                             onChange={handleUserChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Lastname: </p>
                                         <input type='text'
                                             name='userLastName'
@@ -305,7 +313,7 @@ const SignUp = () => {
                                             onChange={handleUserChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Enter Email: </p>
                                         <input
                                             type='text'
@@ -315,7 +323,7 @@ const SignUp = () => {
                                             onChange={handleUserChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Choose a Password: </p>
                                         <input
                                             type='password'
@@ -324,7 +332,7 @@ const SignUp = () => {
                                             onChange={handleUserChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <p>Confirm Password: </p>
                                         <input
                                             type='password'
@@ -333,13 +341,13 @@ const SignUp = () => {
                                             onChange={handleUserChange}
                                         />
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <div className='circle-avatar'>
                                             <PersonAdd style={globalIconStyle} />
                                         </div>
                                         <button value='Add a Photo' onClick={onAddPhotoClick}>Add a Photo</button>
                                     </div>
-                                    <div className='signup-flex-row'>
+                                    <div className='flex-row'>
                                         <input type='submit' className='button' value='Submit' disabled={loading} />
                                     </div>
                                 </div>
