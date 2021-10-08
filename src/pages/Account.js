@@ -5,9 +5,9 @@ import { signOut, deleteUser } from 'firebase/auth'
 import { auth, db } from '../firebaseInit'
 import { doc, getDoc, deleteDoc } from "firebase/firestore"
 import { Redirect } from 'react-router'
-import { Person } from '@material-ui/icons'
 import Loading from '../components/Loading'
-import { globalIconStyle } from '../assets/GlobalStyles'
+import UserAccount from '../components/UserAccount'
+import ProviderAccount from '../components/ProviderAccount'
 
 const Account = () => {
 
@@ -114,53 +114,7 @@ const Account = () => {
                 <div className='card-type1 account-card'>
                     {loading ? <Loading /> :
                         <div className='eightyperc-container flex-column-stretch'>
-                            {!isProvider ? <>
-                                <div className="flex-row">
-                                    <div className='circle-avatar'>
-                                        <Person style={globalIconStyle} />
-                                    </div>
-                                </div>
-                                <h3 className='heading-type3 center-text'>{userData.userDataFirstName} {userData.userDataLastName}</h3>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Email:</p><p className='para-type1'>{userData.userDataEmail}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Address:</p><p className='para-type1'>{userData.userDataEmail}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Phone Number:</p><p className='para-type1'>{userData.userDataEmail}</p>
-                                </div>
-                            </> : <>
-                                <div className="flex-row">
-                                    <div className='circle-avatar'>
-                                        <Person style={globalIconStyle} />
-                                    </div>
-                                </div>
-                                <h3 className='heading-type3 center-text'>{providerData.providerDataCompanyName}</h3>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Account Manager:</p><p className='para-type1'>{providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Email:</p><p className='para-type1'>{providerData.providerDataEmail}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Phone Number:</p><p className='para-type1'>{providerData.providerDataNumber}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>About:</p><p className='para-type1'>{providerData.providerDataDescription}</p>
-                                </div>
-                                <div className='flex-row'>
-                                    <p className='para-type2'>Services:</p>
-                                </div>
-                                {((providerData.providerDataServices).length !== 0) ? providerData.providerDataServices.map((service) => (
-                                    <div className='flex-row'>
-                                        <p className='para-type1'>{service}</p>
-                                    </div>
-                                )) : <div className='flex-row'>
-                                    <p className='para-type1'>Please Add Services</p>
-                                </div>
-                                }
-                            </>}
+                            {!isProvider ? <UserAccount userData={userData} /> : <ProviderAccount providerData={providerData} />}
                             <div className="flex-row">
                                 <button className='button-type1' onClick={onSignOutSubmit}>Log Out</button>
                                 <button className='button-type2' onClick={onDeleteUser}>Delete Account</button>

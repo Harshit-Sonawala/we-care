@@ -93,7 +93,6 @@ const Login = () => {
                                 <div className="flex-row">
                                     <input type='submit' className='button' value='Submit' disabled={loading} />
                                 </div>
-
                             </div>
                             <p className='center-text'>Forgot Password?</p>
                         </form>
