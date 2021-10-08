@@ -7,9 +7,10 @@ A website with a primary focus on frontend and user experience which allows the 
 ### Technologies Used: ###
 * React with Routing, Hooks, Context  
 * Firebase Authentication  
+* Cloud Firestore Database
 * Modern JavaScript conventions  
-* Custom CSS styling  
-* Material Icons  
+* Custom CSS 3 styling  
+* Material UI Elements, Icons, etc.  
 
 - - - -
 

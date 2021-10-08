@@ -27,6 +27,7 @@ const Account = () => {
         providerDataEmail: '',
         providerDataNumber: '',
         providerDataDescription: '',
+        providerDataServices: [],
     })
 
     // Run Read function on app mount:
@@ -56,12 +57,13 @@ const Account = () => {
             } else {
                 setProviderData({
                     ...providerData,
-                    providerDataFirstName: `${docSnap.data().providerFirstName}`,
-                    providerDataLastName: `${docSnap.data().providerLastName}`,
-                    providerDataCompanyName: `${docSnap.data().providerCompanyName}`,
-                    providerDataEmail: `${docSnap.data().providerEmail}`,
-                    providerDataNumber: `${docSnap.data().providerNumber}`,
-                    providerDataDescription: `${docSnap.data().providerDescription}`
+                    providerDataFirstName: docSnap.data().providerFirstName,
+                    providerDataLastName: docSnap.data().providerLastName,
+                    providerDataCompanyName: docSnap.data().providerCompanyName,
+                    providerDataEmail: docSnap.data().providerEmail,
+                    providerDataNumber: docSnap.data().providerNumber,
+                    providerDataDescription: docSnap.data().providerDescription,
+                    providerDataServices: docSnap.data().providerServices
                 })
             }
         } else {
@@ -96,7 +98,7 @@ const Account = () => {
     if (currentUser !== null) {
         return (
             <div className='eightyperc-container'>
-                <div class="card-type1 flex-column">
+                {/* <div class="card-type1 flex-column">
                     <div class="section1">
                         <h3>Padding, Margin, Borders in CSS</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam, aspernatur.</p>
@@ -108,7 +110,7 @@ const Account = () => {
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum aspernatur exercitationem cupiditate nobis nisi quo nam, provident harum similique sunt. Deleniti quidem aliquam excepturi, temporibus voluptatibus sed quaerat repellat ut?</p>
                         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum aspernatur exercitationem cupiditate nobis nisi quo nam, provident harum similique sunt. Deleniti quidem aliquam excepturi, temporibus voluptatibus sed quaerat repellat ut?</p>
                     </div>
-                </div>
+                </div> */}
                 <div className='card-type1 account-card'>
                     {loading ? <Loading /> :
                         <div className='eightyperc-container flex-column-stretch'>
@@ -135,10 +137,29 @@ const Account = () => {
                                     </div>
                                 </div>
                                 <h3 className='heading-type3 center-text'>{providerData.providerDataCompanyName}</h3>
-                                <p className='para-type1'>Company Account Manager: {providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
-                                <p className='para-type1'>Email: {providerData.providerDataEmail}</p>
-                                <p className='para-type1'>Contact No: {providerData.providerDataNumber}</p>
-                                <p className='para-type1'>About: {providerData.providerDataDescription}</p>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Account Manager:</p><p className='para-type1'>{providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Email:</p><p className='para-type1'>{providerData.providerDataEmail}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Phone Number:</p><p className='para-type1'>{providerData.providerDataNumber}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>About:</p><p className='para-type1'>{providerData.providerDataDescription}</p>
+                                </div>
+                                <div className='flex-row'>
+                                    <p className='para-type2'>Services:</p>
+                                </div>
+                                {((providerData.providerDataServices).length !== 0) ? providerData.providerDataServices.map((service) => (
+                                    <div className='flex-row'>
+                                        <p className='para-type1'>{service}</p>
+                                    </div>
+                                )) : <div className='flex-row'>
+                                    <p className='para-type1'>Please Add Services</p>
+                                </div>
+                                }
                             </>}
                             <div className="flex-row">
                                 <button className='button-type1' onClick={onSignOutSubmit}>Log Out</button>

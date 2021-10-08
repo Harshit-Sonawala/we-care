@@ -225,7 +225,8 @@ body {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  font-weight: bold;
+  font-family: 'Montserrat';
+  /* font-weight: bold; */
 }
 
 .center-text {
@@ -630,7 +631,7 @@ body {
 .account-card {
   margin: auto;
   max-width: 600px;
-  max-height: 700px;
+  /* max-height: 700px; */
   flex: 0.33;
   font-size: 22px;
 }

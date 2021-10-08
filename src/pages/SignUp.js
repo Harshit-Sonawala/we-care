@@ -137,6 +137,7 @@ const SignUp = () => {
                     providerEmail: providerSignUpState.providerEmail,
                     providerNumber: providerSignUpState.providerNumber,
                     providerDescription: providerSignUpState.providerDescription,
+                    providerServices: ['service one', 'service two', 'service three']
                 }).catch((error) => {
                     alert(`in signup/fireStore_setDoc: Error Code ${error.code}: ${error.message}`)
                     setUserSignUpState({
