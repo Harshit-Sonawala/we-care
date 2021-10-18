@@ -1,9 +1,9 @@
-import Categories from "../components/Categories"
+import Categories from '../components/Categories'
 
 const Services = () => {
     return (
         <>
-            <div className="eightyperc-container">
+            <div className='eightyperc-container'>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
                         <h2 className='heading-type3'>Services</h2>

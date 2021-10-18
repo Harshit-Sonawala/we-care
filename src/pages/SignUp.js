@@ -65,10 +65,10 @@ const SignUp = () => {
             if (userSignUpState.userPassword === userSignUpState.userConfirmPassword) {
                 // Firebase Auth create new user:
                 setLoading(true)
+                setIsProvider(false)
                 await createUserWithEmailAndPassword(auth, userSignUpState.userEmail, userSignUpState.userPassword).then((userResponse) => {
                     finalUser = userResponse.user
                     alert(`Successfully created user with userId: ${finalUser.uid}`)
-                    setIsProvider(false)
                     history.push('/')
                 }).catch((error) => {
                     alert(`in signup/firebaseCreateUserEmail: Error! Code ${error.code}: ${error.message}`)
@@ -118,11 +118,10 @@ const SignUp = () => {
             if (providerSignUpState.providerPassword === providerSignUpState.providerConfirmPassword) {
                 // Firebase Auth create new user:
                 setLoading(true)
+                setIsProvider(true)
                 await createUserWithEmailAndPassword(auth, providerSignUpState.providerEmail, providerSignUpState.providerPassword).then((providerResponse) => {
                     finalProvider = providerResponse.user
                     alert(`Successfully created provider with userId: ${finalProvider.uid}`)
-                    setIsProvider(true)
-                    history.push('/')
                 }).catch((error) => {
                     alert(`in signup/firebaseCreateProviderEmail: Error! Code ${error.code}: ${error.message}`)
                     setLoading(false)
@@ -153,6 +152,7 @@ const SignUp = () => {
                     setLoading(false)
                     return
                 })
+                history.push('/')
             } else {
                 alert('Entered passwords do not match.')
                 return

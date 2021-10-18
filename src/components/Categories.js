@@ -13,7 +13,7 @@ import CategoryCard from './CategoryCard'
 const Categories = () => {
     return (
         <div className='category-main'>
-            <div className="ninetyfiveperc-container">
+            <div className='ninetyfiveperc-container'>
                 <h2 className='heading-type3'>Categories:</h2>
                 <div className='category-container'>
                     <CategoryCard title={'Cleaning'} bgImg={cleaningImg} />

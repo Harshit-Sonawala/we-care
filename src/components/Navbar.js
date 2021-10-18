@@ -12,7 +12,7 @@ const Navbar = () => {
             <div className='eightyperc-container'>
                 <div className='navbar-main'>
                     <Link to='/'>
-                        <img className="logo" src={WeCareLogoBig} alt="WeCare" />
+                        <img className='logo' src={WeCareLogoBig} alt='WeCare' />
                     </Link>
                     <div className='navbar-nav'>
                         <Link to='/services'><button>Services</button></Link>
@@ -24,7 +24,7 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
-        </header>
+        </header >
     )
 }
 

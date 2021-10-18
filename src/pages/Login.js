@@ -31,10 +31,12 @@ const Login = () => {
             setLoading(true)
             await signInWithEmailAndPassword(auth, logInState.loginEmail, logInState.loginPassword).then(async (userResponse) => {
                 const finalUser = userResponse.user
-                const docRef = doc(db, 'providers', finalUser.uid)
-                const docSnap = await getDoc(docRef)
+                const docSnap = await getDoc(doc(db, 'providers', finalUser.uid))
                 if (docSnap.exists()) {
                     setIsProvider(true)
+                    console.log(`isProvider true in login`)
+                } else {
+                    console.log(`isProvider false in login`)
                 }
                 alert(`Successfully logged in with finalUser.uid: ${finalUser.uid}`)
                 history.push('/')
@@ -69,10 +71,10 @@ const Login = () => {
                         <form onSubmit={onLoginSubmit} className='eightyperc-container'>
                             <h2 className='heading-type3'>Log in</h2>
                             <div className='flex-column-stretch'>
-                                <div className="flex-row left-align">
+                                <div className='flex-row left-align'>
                                     <p>Enter Email:</p>
                                 </div>
-                                <div className="flex-row">
+                                <div className='flex-row'>
                                     <input type='text'
                                         name='loginEmail'
                                         placeholder='abc@example.com'
@@ -80,17 +82,17 @@ const Login = () => {
                                         onChange={handleLoginChange}
                                     />
                                 </div>
-                                <div className="flex-row left-align">
+                                <div className='flex-row left-align'>
                                     <p>Enter Password:</p>
                                 </div>
-                                <div className="flex-row">
+                                <div className='flex-row'>
                                     <input type='password'
                                         name='loginPassword'
                                         value={logInState.loginPassword}
                                         onChange={handleLoginChange}
                                     />
                                 </div>
-                                <div className="flex-row">
+                                <div className='flex-row'>
                                     <input type='submit' className='button' value='Submit' disabled={loading} />
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react"
+import { createContext, useState, useEffect } from 'react'
 import { auth } from '../firebaseInit'
 import { onAuthStateChanged } from 'firebase/auth'
 
@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
-                console.log(`Signed in with: ${user.uid}`)
+                console.log(`Signed in with: ${user.uid}, provider: ${isProvider}`)
                 setCurrentUser(user)
             } else {
                 console.log('Signed out')
