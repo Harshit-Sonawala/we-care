@@ -1,10 +1,10 @@
-import { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { Link, useHistory } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebaseInit'
-import { Person } from '@material-ui/icons'
+import { Person } from '@mui/icons-material'
 import Loading from '../components/Loading'
 import { globalIconStyle } from '../assets/GlobalStyles'
 
@@ -65,13 +65,13 @@ const Login = () => {
             <div className='card-type1 login-card'>
                 {loading ? <Loading /> :
                     <div className='ninetyfiveperc-container flex-column'>
-                        <div className='circle-avatar'>
+                        <div className='circle size100px'>
                             <Person style={globalIconStyle} />
                         </div>
                         <form onSubmit={onLoginSubmit} className='eightyperc-container'>
                             <h2 className='heading-type3'>Log in</h2>
                             <div className='flex-column-stretch'>
-                                <div className='flex-row left-align'>
+                                <div className='flex-row left-justify'>
                                     <p>Enter Email:</p>
                                 </div>
                                 <div className='flex-row'>
@@ -82,7 +82,7 @@ const Login = () => {
                                         onChange={handleLoginChange}
                                     />
                                 </div>
-                                <div className='flex-row left-align'>
+                                <div className='flex-row left-justify'>
                                     <p>Enter Password:</p>
                                 </div>
                                 <div className='flex-row'>

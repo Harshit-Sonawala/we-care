@@ -5,7 +5,7 @@ const Footer = () => {
         <header className='footer'>
             <div className='eightyperc-container'>
                 <div className='footer-main'>
-                    <p>Copyright &copy; 2021 WeCare home solutions.</p>
+                    <p>Copyright &copy; 2021 WeCare Home Solutions.</p>
                 </div>
             </div>
         </header>

@@ -1,8 +1,8 @@
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import WeCareLogoBig from '../assets/images/WeCareLogoBig.png'
-
+import { ViewList, Info, AccountBox, Login } from '@mui/icons-material'
 const Navbar = () => {
 
     const { currentUser } = useContext(AuthContext)
@@ -15,11 +15,11 @@ const Navbar = () => {
                         <img className='logo' src={WeCareLogoBig} alt='WeCare' />
                     </Link>
                     <div className='navbar-nav'>
-                        <Link to='/services'><button>Services</button></Link>
-                        <Link to='/about'><button>About</button></Link>
+                        <Link to='/services'><button><ViewList />Services</button></Link>
+                        <Link to='/about'><button><Info />About</button></Link>
                         {
-                            currentUser ? <Link to='/account'><button>Account</button></Link>
-                                : <Link to='/login'><button>Log In</button></Link>
+                            currentUser ? <Link to='/account'><button><AccountBox />Account</button></Link>
+                                : <Link to='/login'><button><Login />Log In</button></Link>
                         }
                     </div>
                 </div>

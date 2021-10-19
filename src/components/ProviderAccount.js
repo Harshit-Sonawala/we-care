@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
-import { doc, setDoc } from '@firebase/firestore'
+import { doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebaseInit'
-import { FormControlLabel, Checkbox } from '@material-ui/core'
-import { Person, Delete } from '@material-ui/icons'
+import { FormControlLabel, Checkbox } from '@mui/material'
+import { Person, Logout, Delete, MonetizationOn } from '@mui/icons-material'
 import { globalIconStyle } from '../assets/GlobalStyles'
 
 const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDeleteUser }) => {
@@ -31,19 +31,16 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         const newServiceId = (providerData.providerDataServices.length) + 1
         console.log(`newServiceId: ${newServiceId}`)
         const newService = { ...serviceInput, serviceId: newServiceId }
-        //setServiceInput(serviceInput => ({ ...serviceInput, serviceId: newServiceId }))
-        console.log(`serviceInput: ${JSON.stringify(serviceInput)}`)
-        console.log(`newService: ${JSON.stringify(newService)}`)
         // Can't directly use providerData as it doesnt immediately get the synchronous data
         const finalServices = [...providerData.providerDataServices, newService]
         setProviderData(providerData => ({
             ...providerData,
             providerDataServices: finalServices
         }))
-        await setDoc(doc(db, 'providers', currentUser.uid), {
+        await updateDoc(doc(db, 'providers', currentUser.uid), {
             providerServices: finalServices
-        }, { merge: true }).catch((error) => {
-            console.log(`in providerAccount/addNewService/fireStore_setDoc: Error Code ${error.code}: ${error.message}`)
+        }).catch((error) => {
+            console.log(`in providerAccount/addNewService/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
             setLoading(false)
             return
         })
@@ -57,10 +54,23 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         setLoading(false)
     }
 
-    const onDeleteService = (passedServiceId) => {
-        console.log(`Service Id To Delete: ${passedServiceId}`)
-        // setProviderData(providerData => providerData.providerDataServices.filter((service) => service.serviceId !== passedServiceId)
-        // )
+    const onDeleteService = async (passedServiceId) => {
+        setLoading(true)
+        const finalServices = [...providerData.providerDataServices]
+        finalServices.filter((eachService) => eachService.serviceId !== passedServiceId)
+        setProviderData(providerData => ({
+            ...providerData,
+            providerDataServices: finalServices
+        }))
+        console.log(`finalServices: ${JSON.stringify(finalServices)}`)
+        await updateDoc(doc(db, 'providers', currentUser.uid), {
+            providerServices: finalServices
+        }).catch((error) => {
+            console.log(`in providerAccount/deleteService/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
+            setLoading(false)
+            return
+        })
+        setLoading(false)
     }
 
     return (
@@ -69,45 +79,57 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                 <div className='card-type1 account-card'>
                     <div className='flex-column-stretch eightyperc-container'>
                         <div className='flex-row'>
-                            <div className='circle-avatar'>
+                            <div className='circle size100px'>
                                 <Person style={globalIconStyle} />
                             </div>
                         </div>
                         <h3 className='heading-type3 center-text'>{providerData.providerDataCompanyName}</h3>
                         <div className='flex-row'>
-                            <p className='para-type2'>Account Manager:</p><p className='para-type1'>{providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
+                            <p className='para-type2'>Account Manager:</p><p className='grey-container'>{providerData.providerDataFirstName} {providerData.providerDataLastName}</p>
                         </div>
                         <div className='flex-row'>
-                            <p className='para-type2'>Email:</p><p className='para-type1'>{providerData.providerDataEmail}</p>
+                            <p className='para-type2'>Email:</p><p className='grey-container'>{providerData.providerDataEmail}</p>
                         </div>
                         <div className='flex-row'>
-                            <p className='para-type2'>Phone Number:</p><p className='para-type1'>{providerData.providerDataNumber}</p>
+                            <p className='para-type2'>Phone Number:</p><p className='grey-container'>{providerData.providerDataNumber}</p>
                         </div>
-                        <div className='flex-row'>
-                            <p className='para-type2'>About:</p>
+                        <div className='flex-row left-justify'>
+                            <p className='para-type2'>About Your Company:</p>
                         </div>
                         <div className="flex-row">
-                            <p className='para-type1'>{providerData.providerDataDescription}</p>
+                            <p className='grey-container'>{providerData.providerDataDescription}</p>
                         </div>
                         <div className='flex-row'>
-                            <button className='button-type1' onClick={onSignOutSubmit}>Log Out</button>
-                            <button className='button-type2' onClick={onDeleteUser}>Delete Account</button>
+                            <button className='button-type1' onClick={onSignOutSubmit}><Logout />Log Out</button>
+                            <button className='button-type2' onClick={onDeleteUser}><Delete />Delete Account</button>
                         </div>
                     </div>
                 </div>
                 <div className='card-type1 account-card'>
-                    <div className='flex-column-stretch eightyperc-container'>
+                    <div className='flex-column-stretch ninetyfiveperc-container'>
                         <h4 className='heading-type3'>Your Services: {providerData.providerDataServices.length}</h4>
-                        {(providerData.providerDataServices.length !== 0) ? providerData.providerDataServices.map((eachService) => (
-                            <div className='flex-row' key={eachService.serviceId}>
-                                <p className='para-type1'>{eachService.serviceId}</p>
-                                <p className='para-type1'>{eachService.serviceTitle}</p>
-                                <button className='button-type2' onClick={() => onDeleteService(eachService.serviceId)}><Delete /></button>
+                        <div className="flex-column-stretch dark-grey-container">
+                            {(providerData.providerDataServices.length !== 0) ? providerData.providerDataServices.map((eachService) => (
+                                <div className='flex-row stretch-justify' key={eachService.serviceId}>
+                                    <div className='service-card'>
+                                        <div className="flex-row left-justify">
+                                            <p className='circle index-circle'>{eachService.serviceId}</p>
+                                            <p className='para-type2'>{eachService.serviceTitle}</p>
+                                        </div>
+                                        <div className="flex-row stretch-justify">
+                                            <p className='grey-container'>{eachService.serviceDescription}</p>
+                                        </div>
+                                        <div className="flex-row left-justify">
+                                            <p className='para-type3'><MonetizationOn />Price: Rs. {eachService.servicePrice}</p>
+                                            <button className='button-type2' onClick={() => onDeleteService(eachService.serviceId)}><Delete /></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )) : <div className='flex-row'>
+                                <p className='para-type2'>No Services Added</p>
                             </div>
-                        )) : <div className='flex-row'>
-                            <p className='para-type2'>No Services Added</p>
+                            }
                         </div>
-                        }
                     </div>
                 </div>
             </div>
@@ -130,6 +152,15 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                                 name='serviceDescription'
                                 placeholder='About my service...'
                                 value={serviceInput.serviceDescription}
+                                onChange={handleServiceInputChange}
+                            />
+                        </div>
+                        <div className='flex-row'>
+                            <p>Service Price: Rs.</p>
+                            <input type='text'
+                                name='servicePrice'
+                                placeholder='0.00'
+                                value={serviceInput.servicePrice}
                                 onChange={handleServiceInputChange}
                             />
                         </div>

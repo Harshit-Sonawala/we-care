@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Search } from '@material-ui/icons'
+import React, { useState } from 'react'
+import { Search } from '@mui/icons-material'
 
 const SearchBar = () => {
     const [searchQuery, setQuery] = useState('')

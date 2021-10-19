@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import { signOut, deleteUser } from 'firebase/auth'
@@ -56,7 +56,6 @@ const Account = () => {
         } else {
             docSnap = await getDoc(doc(db, 'providers', currentUser.uid))
             if (docSnap.exists()) {
-                console.log(`Fetched provider data:`, docSnap.data())
                 setProviderData({
                     ...providerData,
                     providerDataFirstName: docSnap.data().providerFirstName,

@@ -1,3 +1,6 @@
+import React from 'react'
+import CategoryCard from './CategoryCard'
+
 import cleaningImg from '../assets/images/cleaning.jpg'
 import electricianImg from '../assets/images/electrician.jpeg'
 import plumberImg from '../assets/images/plumber.jpeg'
@@ -7,8 +10,6 @@ import womensalonImg from '../assets/images/women_salon.jpg'
 import mensalonImg from '../assets/images/men_salon.jpg'
 import massageImg from '../assets/images/massage.jpg'
 import miscImg from '../assets/images/misc.jpg'
-
-import CategoryCard from './CategoryCard'
 
 const Categories = () => {
     return (

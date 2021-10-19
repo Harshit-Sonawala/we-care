@@ -1,3 +1,4 @@
+import React from 'react'
 import Categories from '../components/Categories'
 
 const Services = () => {
@@ -15,7 +16,7 @@ const Services = () => {
             <div className='eightyperc-container'>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Cleaning:</h3>
                             <p>Bathroom / Kitchen Cleaning</p>
                             <p>Offices & Shops Disinfection</p>
@@ -27,7 +28,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Electrician:</h3>
                             <p>Repairs & Fixes</p>
                             <p>Electrical Wiring</p>
@@ -37,7 +38,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Plumbers:</h3>
                             <p>Pipe / Tap Fittings</p>
                             <p>Leakage Checks</p>
@@ -48,7 +49,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Carpenters:</h3>
                             <p>Repairs & Fixes</p>
                             <p>Woodwork</p>
@@ -58,7 +59,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Pest Control:</h3>
                             <p>Cockroach & Ant Control</p>
                             <p>Bedbugs Control</p>
@@ -68,7 +69,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Salon for Women:</h3>
                             <p>Hair Care / Haircuts</p>
                             <p>Skin Care</p>
@@ -80,7 +81,7 @@ const Services = () => {
                 </div>
                 <div className='card-type1'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='service-card'>
+                        <div className='services'>
                             <h3>Salon for Men:</h3>
                             <p>Haircuts</p>
                             <p>Skin Care</p>

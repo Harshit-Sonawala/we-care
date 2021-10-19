@@ -1,13 +1,13 @@
-import { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { auth, db } from '../firebaseInit'
-import { PersonAdd } from '@material-ui/icons'
+import { PersonAdd } from '@mui/icons-material'
 import Loading from '../components/Loading'
 import { globalIconStyle } from '../assets/GlobalStyles'
-import { Switch as MaterialSwitch } from '@material-ui/core'
+import { Switch as MaterialSwitch } from '@mui/material'
 
 const SignUp = () => {
 
@@ -273,7 +273,7 @@ const SignUp = () => {
                                         />
                                     </div>
                                     <div className='flex-row'>
-                                        <div className='circle-avatar'>
+                                        <div className='circle size100px'>
                                             <PersonAdd style={globalIconStyle} />
                                         </div>
                                         <button value='Add a Photo'>Add a Photo</button>
@@ -343,7 +343,7 @@ const SignUp = () => {
                                         />
                                     </div>
                                     <div className='flex-row'>
-                                        <div className='circle-avatar'>
+                                        <div className='circle size100px'>
                                             <PersonAdd style={globalIconStyle} />
                                         </div>
                                         <button value='Add a Photo' onClick={onAddPhotoClick}>Add a Photo</button>

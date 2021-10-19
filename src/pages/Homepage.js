@@ -1,3 +1,4 @@
+import React from 'react'
 import Showcase from '../components/Showcase'
 import LandingCard from '../components/LandingCard'
 import trustedProfessional from '../assets/images/Businessman _Monochromatic.png'
