@@ -2,8 +2,9 @@ import React, { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebaseInit'
-import { FormControlLabel, Checkbox } from '@mui/material'
-import { Person, Logout, Delete, MonetizationOn } from '@mui/icons-material'
+import ServiceCard2 from '../components/ServiceCard2'
+import { Checkbox, FormControl, Select, MenuItem } from '@mui/material'
+import { Person, Logout, Delete } from '@mui/icons-material'
 import { globalIconStyle } from '../assets/GlobalStyles'
 
 const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDeleteUser }) => {
@@ -14,8 +15,10 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         serviceId: 0,
         serviceTitle: '',
         serviceDescription: '',
+        serviceCategory: '',
+        servicePrice: 0.0,
         serviceAvailable: true,
-        servicePrice: 0.0
+        serviceProvider: ''
     })
 
     const handleServiceInputChange = (e) => {
@@ -30,7 +33,7 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         setLoading(true)
         const newServiceId = (providerData.providerDataServices.length) + 1
         console.log(`newServiceId: ${newServiceId}`)
-        const newService = { ...serviceInput, serviceId: newServiceId }
+        const newService = { ...serviceInput, serviceId: newServiceId, serviceProvider: providerData.providerDataCompanyName }
         // Can't directly use providerData as it doesnt immediately get the synchronous data
         const finalServices = [...providerData.providerDataServices, newService]
         setProviderData(providerData => ({
@@ -48,30 +51,32 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
             serviceId: 0,
             serviceTitle: '',
             serviceDescription: '',
+            serviceCategory: '',
+            servicePrice: 0.0,
             serviceAvailable: true,
-            servicePrice: 0.0
+            serviceProvider: ''
         }))
         setLoading(false)
     }
 
-    const onDeleteService = async (passedServiceId) => {
-        setLoading(true)
-        const finalServices = [...providerData.providerDataServices]
-        finalServices.filter((eachService) => eachService.serviceId !== passedServiceId)
-        setProviderData(providerData => ({
-            ...providerData,
-            providerDataServices: finalServices
-        }))
-        console.log(`finalServices: ${JSON.stringify(finalServices)}`)
-        await updateDoc(doc(db, 'providers', currentUser.uid), {
-            providerServices: finalServices
-        }).catch((error) => {
-            console.log(`in providerAccount/deleteService/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
-            setLoading(false)
-            return
-        })
-        setLoading(false)
-    }
+    // const onDeleteService = async (passedServiceId) => {
+    //     setLoading(true)
+    //     const finalServices = [...providerData.providerDataServices]
+    //     finalServices.filter((eachService) => eachService.serviceId !== passedServiceId)
+    //     setProviderData(providerData => ({
+    //         ...providerData,
+    //         providerDataServices: finalServices
+    //     }))
+    //     console.log(`finalServices: ${JSON.stringify(finalServices)}`)
+    //     await updateDoc(doc(db, 'providers', currentUser.uid), {
+    //         providerServices: finalServices
+    //     }).catch((error) => {
+    //         console.log(`in providerAccount/deleteService/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
+    //         setLoading(false)
+    //         return
+    //     })
+    //     setLoading(false)
+    // }
 
     return (
         <>
@@ -110,21 +115,7 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                         <h4 className='heading-type3'>Your Services: {providerData.providerDataServices.length}</h4>
                         <div className="flex-column-stretch dark-grey-container">
                             {(providerData.providerDataServices.length !== 0) ? providerData.providerDataServices.map((eachService) => (
-                                <div className='flex-row stretch-justify' key={eachService.serviceId}>
-                                    <div className='service-card'>
-                                        <div className="flex-row left-justify">
-                                            <p className='circle index-circle'>{eachService.serviceId}</p>
-                                            <p className='para-type2'>{eachService.serviceTitle}</p>
-                                        </div>
-                                        <div className="flex-row stretch-justify">
-                                            <p className='grey-container'>{eachService.serviceDescription}</p>
-                                        </div>
-                                        <div className="flex-row left-justify">
-                                            <p className='para-type3'><MonetizationOn />Price: Rs. {eachService.servicePrice}</p>
-                                            <button className='button-type2' onClick={() => onDeleteService(eachService.serviceId)}><Delete /></button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ServiceCard2 passedService={eachService} />
                             )) : <div className='flex-row'>
                                 <p className='para-type2'>No Services Added</p>
                             </div>
@@ -165,13 +156,33 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                             />
                         </div>
                         <div className="flex-row">
-                            <FormControlLabel control={
-                                <Checkbox defaultChecked
-                                    name='serviceAvailable'
-                                    value={serviceInput.serviceAvailable}
+                            <p>Service Category: </p>
+                            <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
+                                <Select
+                                    name='serviceCategory'
+                                    value={serviceInput.serviceCategory}
                                     onChange={handleServiceInputChange}
-                                />
-                            } label="Available Now" />
+                                >
+                                    <MenuItem value=''>None</MenuItem>
+                                    <MenuItem value={'Cleaning'}>Cleaning</MenuItem>
+                                    <MenuItem value={'Electricians'}>Electricians</MenuItem>
+                                    <MenuItem value={'Plumbers'}>Plumbers</MenuItem>
+                                    <MenuItem value={'Carpenters'}>Carpenters</MenuItem>
+                                    <MenuItem value={'Pest Control'}>Pest Control</MenuItem>
+                                    <MenuItem value={'Salon for Women'}>Salon for Women</MenuItem>
+                                    <MenuItem value={'Salon for Men'}>Salon for Men</MenuItem>
+                                    <MenuItem value={'Massage'}>Massage</MenuItem>
+                                    <MenuItem value={'Miscellanious'}>Miscellanious</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                        <div className="flex-row">
+                            <p>Available Now</p>
+                            <Checkbox defaultChecked
+                                name='serviceAvailable'
+                                value={serviceInput.serviceAvailable}
+                                onChange={handleServiceInputChange}
+                            />
                         </div>
                         <div className='flex-row'>
                             <input type='submit' className='button' value='Submit' disabled={loading} />

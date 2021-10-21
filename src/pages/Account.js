@@ -6,8 +6,8 @@ import { auth, db } from '../firebaseInit'
 import { doc, getDoc, deleteDoc } from 'firebase/firestore'
 import { Redirect } from 'react-router'
 import Loading from '../components/Loading'
-import UserAccount from '../components/UserAccount'
-import ProviderAccount from '../components/ProviderAccount'
+import UserAccount from './UserAccount'
+import ProviderAccount from './ProviderAccount'
 
 const Account = () => {
 

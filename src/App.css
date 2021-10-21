@@ -233,6 +233,12 @@ body {
   background: var(--dark-grey);
 }
 
+.para-type1 {
+  padding: 10px;
+  margin: 10px;
+  color: var(--accent-color);
+}
+
 .para-type2 {
   padding: 10px;
   margin: 10px;
@@ -245,8 +251,14 @@ body {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  font-family: 'Montserrat';
   color: var(--green);
+}
+
+.icon-para {
+  display: flex;
+  flex-wrap: row nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .center-text {
@@ -302,6 +314,10 @@ body {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
+}
+
+.flex-max {
+  flex: 99;
 }
 
 .left-justify {
@@ -521,13 +537,6 @@ body {
 
 .services h3{
   color: var(--primary-color);
-}
-
-.services p {
-  padding: 10px;
-  margin: 7px 0;
-  border-radius: 10px;
-  background: var(--grey);
 }
 
 .category-main {
