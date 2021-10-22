@@ -114,7 +114,7 @@ const Account = () => {
             <div className='ninetyfiveperc-container'>
                 {loading ? <Loading /> : <>
                     {!isProvider ?
-                        <UserAccount userData={userData} onSignOutSubmit={onSignOutSubmit} onDeleteUser={onDeleteUser} />
+                        <UserAccount userData={userData} setUserData={setUserData} onSignOutSubmit={onSignOutSubmit} onDeleteUser={onDeleteUser} />
                         : <ProviderAccount providerData={providerData} setProviderData={setProviderData} onSignOutSubmit={onSignOutSubmit} onDeleteUser={onDeleteUser} />
                     }
                 </>}

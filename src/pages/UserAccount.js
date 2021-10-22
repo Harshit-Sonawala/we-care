@@ -3,10 +3,10 @@ import { AuthContext } from '../contexts/AuthContext'
 import { doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebaseInit'
 import ServiceCard2 from '../components/ServiceCard2'
-import { Person, Logout, Delete } from '@mui/icons-material'
+import { Person, Logout, Delete, ShoppingCart, ArrowForward } from '@mui/icons-material'
 import { globalIconStyle } from '../assets/GlobalStyles'
 
-const UserAccount = ({ userData, onSignOutSubmit, onDeleteUser }) => {
+const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) => {
 
     const { currentUser } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
@@ -40,12 +40,54 @@ const UserAccount = ({ userData, onSignOutSubmit, onDeleteUser }) => {
         setLoading(false)
     }
 
+    const onDeleteItem = async (passedIndex) => {
+        setLoading(true)
+        console.log(`indexToDelete: ${passedIndex}`)
+        const finalCart = userData.userDataCart
+        finalCart.splice(passedIndex, 1)
+        setUserData(userData => ({
+            ...userData,
+            userDataCart: finalCart
+        }))
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+            userCart: finalCart
+        }).catch((error) => {
+            console.log(`in userAccount/deleteItem/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
+            setLoading(false)
+            return
+        })
+        setLoading(false)
+    }
+
+    const onEmptyCart = async () => {
+        setLoading(true)
+        const finalCart = []
+        setUserData(userData => ({
+            ...userData,
+            userDataCart: finalCart
+        }))
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+            userCart: finalCart
+        }).catch((error) => {
+            console.log(`in userAccount/emptyCart/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
+            setLoading(false)
+            return
+        })
+        setLoading(false)
+    }
+
     const calculateCartTotal = (passedCart) => {
         var cartTotal = 0.0
         if (passedCart.length !== 0) {
             passedCart.map((eachService) => cartTotal = cartTotal + parseFloat(eachService.servicePrice))
         }
         return cartTotal
+    }
+
+    const onCheckOutClicked = () => {
+        setLoading(true)
+        console.log(`Checkout Clicked.`)
+        setLoading(false)
     }
 
     return (
@@ -111,7 +153,7 @@ const UserAccount = ({ userData, onSignOutSubmit, onDeleteUser }) => {
                         <h4 className='heading-type3'>Your Cart Items: {userData.userDataCart.length}</h4>
                         <div className="flex-column-stretch dark-grey-container">
                             {(userData.userDataCart.length !== 0) ? userData.userDataCart.map((eachService, serviceIndex) => (
-                                <ServiceCard2 passedService={eachService} serviceIndex={serviceIndex} />
+                                <ServiceCard2 passedService={eachService} passedIndex={serviceIndex} onDeleteItem={onDeleteItem} />
                             )) : <div className='flex-row'>
                                 <p className='para-type2'>Cart is Empty</p>
                             </div>
@@ -119,9 +161,13 @@ const UserAccount = ({ userData, onSignOutSubmit, onDeleteUser }) => {
                         </div>
                     </div>
                 </div>
-                <div className="card-type1 eightyperc-container signup-card2">
+                <div className="card-type1 eightyperc-container cart-total-card">
                     <div className='flex-row'>
                         <h4>Cart Total:   Rs. {calculateCartTotal(userData.userDataCart)}</h4>
+                    </div>
+                    <div className='flex-row'>
+                        <button className='button-type2' onClick={onEmptyCart}><Delete />Empty Cart</button>
+                        <button className='button-type1' onClick={onCheckOutClicked}>Proceed To Checkout<ShoppingCart /><ArrowForward /></button>
                     </div>
                 </div>
             </div>

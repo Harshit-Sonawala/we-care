@@ -1,10 +1,10 @@
 import React from 'react'
-import { Widgets, MonetizationOn } from '@mui/icons-material'
+import { Widgets, MonetizationOn, RemoveShoppingCart } from '@mui/icons-material'
 
-const ServiceCard2 = ({ passedService, serviceIndex }) => {
-    const displayIndex = serviceIndex + 1
+const ServiceCard2 = ({ passedService, passedIndex, onDeleteItem }) => {
+    const displayIndex = passedIndex + 1
     return (
-        <div className='flex-row stretch-justify' key={serviceIndex}>
+        <div className='flex-row stretch-justify' key={passedIndex}>
             <div className='service-card'>
                 <div className="flex-row left-justify">
                     <p className='circle index-circle'>{displayIndex}</p>
@@ -16,7 +16,7 @@ const ServiceCard2 = ({ passedService, serviceIndex }) => {
                 <div className="flex-row left-justify">
                     <p className='para-type2 icon-para'><Widgets />{passedService.serviceCategory}</p>
                     <p className='para-type3 icon-para'><MonetizationOn />Price: Rs. {passedService.servicePrice}</p>
-                    {/* <button className='button-type2' onClick={() => onDeleteService(passedService.serviceId)}><Delete /></button> */}
+                    <button className='button-type2' onClick={() => onDeleteItem(passedIndex)}><RemoveShoppingCart />Remove</button>
                 </div>
             </div>
         </div>

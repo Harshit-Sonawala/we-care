@@ -712,3 +712,16 @@ body {
   border-radius: 50%;
   text-align: center;
 }
+
+.cart-total-card {
+  margin: 20px auto;
+  padding: 20px 10px;
+  justify-content: center;
+  font-size: 22px;
+  text-align: center;
+}
+
+.cart-total-card h4 {
+  padding: 10px;
+  margin: 10px;
+}

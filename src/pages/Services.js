@@ -97,7 +97,6 @@ const Services = () => {
                 setLoading(false)
                 return
             })
-
             alert(`Added ${addedService.serviceTitle} by ${addedService.serviceProvider} to cart.`)
         } else {
             alert(`Please Login or Signup first.`)
