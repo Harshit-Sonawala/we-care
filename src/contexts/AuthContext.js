@@ -12,10 +12,10 @@ export const AuthProvider = ({ children }) => {
         onAuthStateChanged(auth, (user) => {
             if (user !== null) {
                 console.log(`Signed in with: ${user.uid}, provider: ${isProvider}`)
-                setCurrentUser(user)
+                setCurrentUser(currentUser => user)
             } else {
                 console.log('Signed out')
-                setCurrentUser(null)
+                setCurrentUser(currentUser => null)
             }
         })
     })

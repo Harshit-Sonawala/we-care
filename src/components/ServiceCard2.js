@@ -1,12 +1,13 @@
 import React from 'react'
 import { Widgets, MonetizationOn } from '@mui/icons-material'
 
-const ServiceCard2 = ({ passedService }) => {
+const ServiceCard2 = ({ passedService, serviceIndex }) => {
+    const displayIndex = serviceIndex + 1
     return (
-        <div className='flex-row stretch-justify' key={passedService.serviceId}>
+        <div className='flex-row stretch-justify' key={serviceIndex}>
             <div className='service-card'>
                 <div className="flex-row left-justify">
-                    <p className='circle index-circle'>{passedService.serviceId}</p>
+                    <p className='circle index-circle'>{displayIndex}</p>
                     <p className='para-type2'>{passedService.serviceTitle}</p>
                 </div>
                 <div className="flex-row stretch-justify">

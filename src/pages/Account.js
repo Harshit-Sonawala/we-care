@@ -18,6 +18,9 @@ const Account = () => {
         userDataFirstName: '',
         userDataLastName: '',
         userDataEmail: '',
+        userDataAddress: '',
+        userDataNumber: '',
+        userDataCart: []
     })
 
     const [providerData, setProviderData] = useState({
@@ -27,7 +30,7 @@ const Account = () => {
         providerDataEmail: '',
         providerDataNumber: '',
         providerDataDescription: '',
-        providerDataServices: [],
+        providerDataServices: []
     })
 
     // Run Read function on app mount:
@@ -45,12 +48,14 @@ const Account = () => {
         // }
         var docSnap = await getDoc(doc(db, 'users', currentUser.uid))
         if (docSnap.exists()) {
-            console.log(`Fetched user data:`, docSnap.data())
             setUserData({
                 ...userData,
                 userDataFirstName: docSnap.data().userFirstName,
                 userDataLastName: docSnap.data().userLastName,
-                userDataEmail: docSnap.data().userEmail
+                userDataEmail: docSnap.data().userEmail,
+                userDataAddress: docSnap.data().userAddress,
+                userDataNumber: docSnap.data().userNumber,
+                userDataCart: docSnap.data().userCart
             })
             setIsProvider(false)
         } else {

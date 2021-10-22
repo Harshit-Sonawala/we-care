@@ -114,8 +114,8 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                     <div className='flex-column-stretch ninetyfiveperc-container'>
                         <h4 className='heading-type3'>Your Services: {providerData.providerDataServices.length}</h4>
                         <div className="flex-column-stretch dark-grey-container">
-                            {(providerData.providerDataServices.length !== 0) ? providerData.providerDataServices.map((eachService) => (
-                                <ServiceCard2 passedService={eachService} />
+                            {(providerData.providerDataServices.length !== 0) ? providerData.providerDataServices.map((eachService, serviceIndex) => (
+                                <ServiceCard2 passedService={eachService} serviceIndex={serviceIndex} />
                             )) : <div className='flex-row'>
                                 <p className='para-type2'>No Services Added</p>
                             </div>

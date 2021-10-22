@@ -21,7 +21,10 @@ const SignUp = () => {
         userLastName: '',
         userEmail: '',
         userPassword: '',
-        userConfirmPassword: ''
+        userConfirmPassword: '',
+        userAddress: '',
+        userNumber: '',
+        userCart: []
     })
 
     const [providerSignUpState, setProviderSignUpState] = useState({
@@ -80,7 +83,10 @@ const SignUp = () => {
                 await setDoc(doc(db, 'users', finalUser.uid), {
                     userFirstName: userSignUpState.userFirstName,
                     userLastName: userSignUpState.userLastName,
-                    userEmail: userSignUpState.userEmail
+                    userEmail: userSignUpState.userEmail,
+                    userAddress: 'Not Specified',
+                    userNumber: 'Not Specified',
+                    userCart: []
                 }).catch((error) => {
                     alert(`in signup/fireStore_setDoc: Error Code ${error.code}: ${error.message}`)
                     setUserSignUpState({
@@ -88,7 +94,10 @@ const SignUp = () => {
                         userLastName: '',
                         userEmail: '',
                         userPassword: '',
-                        userConfirmPassword: ''
+                        userConfirmPassword: '',
+                        userAddress: '',
+                        userNumber: '',
+                        userCart: []
                     })
                     setLoading(false)
                     return
@@ -106,7 +115,10 @@ const SignUp = () => {
             userLastName: '',
             userEmail: '',
             userPassword: '',
-            userConfirmPassword: ''
+            userConfirmPassword: '',
+            userAddress: '',
+            userNumber: '',
+            userCart: []
         })
         setLoading(false)
     }
@@ -139,7 +151,7 @@ const SignUp = () => {
                     providerServices: []
                 }).catch((error) => {
                     alert(`in signup/fireStore_setDoc: Error Code ${error.code}: ${error.message}`)
-                    setUserSignUpState({
+                    setProviderSignUpState({
                         providerFirstName: '',
                         providerLastName: '',
                         providerCompanyName: '',

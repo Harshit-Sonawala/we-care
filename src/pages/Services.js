@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
+import { doc, collection, query, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseInit'
-import { collection, query, getDocs } from 'firebase/firestore'
 import Categories from '../components/Categories'
 import ServiceCard from '../components/ServiceCard'
 import Loading from '../components/Loading'
 
 const Services = () => {
 
+    const { currentUser, isProvider } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [cleaningServices, setCleaningServices] = useState([])
     const [electricianServices, setElectricianServices] = useState([])
+    const [userData, setUserData] = useState({
+        userDataFirstName: '',
+        userDataLastName: '',
+        userDataEmail: '',
+        userDataCart: []
+    })
 
     useEffect(() => {
-        readServices()
+        readServices().then(readUserData())
         // eslint-disable-next-line
     }, [])
 
@@ -25,7 +33,7 @@ const Services = () => {
         var i = 0
         if (docSnap) {
             docSnap.forEach((doc) => {
-                console.log(`${doc.id} => ${JSON.stringify(doc.data())}`)
+                //console.log(`${doc.id} => ${JSON.stringify(doc.data())}`)
                 readData[i] = doc.data()
                 i++
             })
@@ -35,6 +43,64 @@ const Services = () => {
             setElectricianServices(electricianServices => allServices.filter(eachService => eachService.serviceCategory === 'Electricians'))
         } else {
             console.log('not found')
+        }
+        setLoading(false)
+    }
+
+    const readUserData = async () => {
+        if (currentUser != null) {
+            var docSnap = await getDoc(doc(db, 'users', currentUser.uid))
+            if (docSnap.exists()) {
+                console.log(`Fetched user data:`, docSnap.data())
+                setUserData({
+                    ...userData,
+                    userDataFirstName: docSnap.data().userFirstName,
+                    userDataLastName: docSnap.data().userLastName,
+                    userDataEmail: docSnap.data().userEmail,
+                    userDataCart: docSnap.data().userCart
+                })
+            } else {
+                console.log(`Not signed in by user.`)
+            }
+        }
+    }
+
+    const onAddToCart = async (passedCategory, passedIndex) => {
+        setLoading(true)
+        if (currentUser != null) {
+            var whichServices = null
+            console.log(`Adding ${passedCategory} ${passedIndex} to cart.`)
+            // <MenuItem value={'Plumbers'}>Plumbers</MenuItem>
+            // <MenuItem value={'Carpenters'}>Carpenters</MenuItem>
+            // <MenuItem value={'Pest Control'}>Pest Control</MenuItem>
+            // <MenuItem value={'Salon for Women'}>Salon for Women</MenuItem>
+            // <MenuItem value={'Salon for Men'}>Salon for Men</MenuItem>
+            // <MenuItem value={'Massage'}>Massage</MenuItem>
+            // <MenuItem value={'Miscellanious'}>Miscellanious</MenuItem>
+            if (passedCategory === 'Cleaning') {
+                whichServices = cleaningServices
+            } else if (passedCategory === 'Electricians') {
+                whichServices = electricianServices
+            } else {
+                console.log(`passedCategory: ${passedCategory} doesnt match.`)
+            }
+            const addedService = whichServices[passedIndex]
+            const finalCart = [...userData.userDataCart, addedService]
+            setUserData(userData => ({
+                ...userData,
+                userDataCart: finalCart
+            }))
+            await updateDoc(doc(db, 'users', currentUser.uid), {
+                userCart: finalCart
+            }).catch((error) => {
+                console.log(`in services/addToCart/fireStore_upDoc: Error Code ${error.code}: ${error.message}`)
+                setLoading(false)
+                return
+            })
+
+            alert(`Added ${addedService.serviceTitle} by ${addedService.serviceProvider} to cart.`)
+        } else {
+            alert(`Please Login or Signup first.`)
         }
         setLoading(false)
     }
@@ -58,7 +124,12 @@ const Services = () => {
                             <div className="flex-column-stretch dark-grey-container">
                                 {loading ? <Loading /> : <>
                                     {(cleaningServices.length !== 0) ? cleaningServices.map((eachService, serviceIndex) => (
-                                        <ServiceCard passedService={eachService} passedIndex={serviceIndex} />
+                                        <ServiceCard
+                                            passedService={eachService}
+                                            passedIndex={serviceIndex}
+                                            showButton={!isProvider}
+                                            onAddToCart={onAddToCart}
+                                        />
                                     )) : <div className='flex-row'>
                                         <p className='para-type2'>No Cleaning Services</p>
                                     </div>}
@@ -74,7 +145,12 @@ const Services = () => {
                             <div className="flex-column-stretch dark-grey-container">
                                 {loading ? <Loading /> : <>
                                     {(electricianServices.length !== 0) ? electricianServices.map((eachService, serviceIndex) => (
-                                        <ServiceCard passedService={eachService} passedIndex={serviceIndex} />
+                                        <ServiceCard
+                                            passedService={eachService}
+                                            passedIndex={serviceIndex}
+                                            showButton={!isProvider}
+                                            onAddToCart={onAddToCart}
+                                        />
                                     )) : <div className='flex-row'>
                                         <p className='para-type2'>No Electrician Services</p>
                                     </div>}
