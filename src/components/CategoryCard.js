@@ -1,4 +1,5 @@
 import React from 'react'
+import { HashLink } from 'react-router-hash-link'
 
 const CategoryCard = ({ title, bgImg }) => {
 
@@ -11,7 +12,9 @@ const CategoryCard = ({ title, bgImg }) => {
 
     return (
         <div className='category-card' style={cardBgStyle}>
-            <div className='category-card-title'>{title}</div>
+            <HashLink to={`/services#${title}`}>
+                <div className='category-card-title'>{title}</div>
+            </HashLink>
         </div>
     )
 }

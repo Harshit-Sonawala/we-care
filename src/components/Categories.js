@@ -12,6 +12,7 @@ import massageImg from '../assets/images/massage.jpg'
 import miscImg from '../assets/images/misc.jpg'
 
 const Categories = () => {
+
     return (
         <div className='category-main'>
             <div className='ninetyfiveperc-container'>

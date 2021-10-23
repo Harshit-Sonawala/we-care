@@ -18,6 +18,7 @@ const ServiceCard = ({ passedService, passedIndex, showButton, onAddToCart }) =>
 
                 <div className="flex-row left-justify">
                     <p className='grey-container'>{passedService.serviceDescription}</p>
+                    <div className='flex-max'></div>
                     {showButton ? <button className='button-type1' onClick={() => onAddToCart(passedService.serviceCategory, passedIndex)}><AddShoppingCart /> Add To Cart</button> : <></>}
                 </div>
             </div>

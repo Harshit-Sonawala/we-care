@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
+import { useHistory } from 'react-router-dom'
 import { doc, updateDoc } from '@firebase/firestore'
 import { db } from '../firebaseInit'
 import ServiceCard2 from '../components/ServiceCard2'
@@ -8,6 +9,7 @@ import { globalIconStyle } from '../assets/GlobalStyles'
 
 const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) => {
 
+    const history = useHistory()
     const { currentUser } = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [userInput, setUserInput] = useState({
@@ -87,6 +89,7 @@ const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) =
     const onCheckOutClicked = () => {
         setLoading(true)
         console.log(`Checkout Clicked.`)
+        history.push('/checkout')
         setLoading(false)
     }
 
@@ -153,7 +156,7 @@ const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) =
                         <h4 className='heading-type3'>Your Cart Items: {userData.userDataCart.length}</h4>
                         <div className="flex-column-stretch dark-grey-container">
                             {(userData.userDataCart.length !== 0) ? userData.userDataCart.map((eachService, serviceIndex) => (
-                                <ServiceCard2 passedService={eachService} passedIndex={serviceIndex} onDeleteItem={onDeleteItem} />
+                                <ServiceCard2 passedService={eachService} passedIndex={serviceIndex} onDeleteItem={onDeleteItem} showDelete={true} />
                             )) : <div className='flex-row'>
                                 <p className='para-type2'>Cart is Empty</p>
                             </div>
@@ -161,7 +164,7 @@ const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) =
                         </div>
                     </div>
                 </div>
-                <div className="card-type1 eightyperc-container cart-total-card">
+                {(userData.userDataCart.length !== 0) ? <div className="card-type1 eightyperc-container cart-total-card">
                     <div className='flex-row'>
                         <h4>Cart Total:   Rs. {calculateCartTotal(userData.userDataCart)}</h4>
                     </div>
@@ -169,7 +172,8 @@ const UserAccount = ({ userData, setUserData, onSignOutSubmit, onDeleteUser }) =
                         <button className='button-type2' onClick={onEmptyCart}><Delete />Empty Cart</button>
                         <button className='button-type1' onClick={onCheckOutClicked}>Proceed To Checkout<ShoppingCart /><ArrowForward /></button>
                     </div>
-                </div>
+                </div> : <></>
+                }
             </div>
         </>
     )

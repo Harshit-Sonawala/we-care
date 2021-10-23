@@ -71,6 +71,11 @@ a:active {
 
 a {
   text-decoration: none;
+  color: #fff;
+}
+
+.blue-link {
+  text-decoration: none;
   color: var(--primary-color);
 }
 
@@ -219,6 +224,11 @@ body {
   font-family: 'Montserrat';
 }
 
+.space-container {
+  padding: 10px;
+  margin: 10px;
+}
+
 .grey-container {
   padding: 10px;
   margin: 10px;
@@ -356,7 +366,7 @@ body {
 .card-type2 {
   flex: 0.40;
   margin: 10px auto;
-  padding: 20px;
+  padding: 30px 20px;
   background: #fff;
   border-radius: 10px;
   display: flex;
@@ -364,6 +374,18 @@ body {
   align-items: center;
   justify-content: space-evenly;
   font-size: 22px;
+}
+
+.card-type3 {
+  flex: 1;
+  margin: 10px;
+  padding: 30px 20px;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .circle {

@@ -102,7 +102,7 @@ const Login = () => {
                 }
             </div>
             <div className='card-type1 login-card login-card2'>
-                <p>New user? <Link to='/signup'>Create an account</Link> instead.</p>
+                <p>New user? <Link to='/signup' className='blue-link'>Create an account</Link> instead.</p>
             </div>
         </div>
     )

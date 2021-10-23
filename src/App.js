@@ -9,6 +9,7 @@ import About from './pages/About'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Account from './pages/Account'
+import Checkout from './pages/Checkout'
 import Homepage from './pages/Homepage'
 import Footer from './components/Footer'
 
@@ -28,6 +29,7 @@ const App = () => {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/signup' component={SignUp} />
                     <PrivateRoute exact path='/account' component={Account} />
+                    <PrivateRoute exact path='/checkout' component={Checkout} />
                     <Footer />
                 </div>
             </Router>
