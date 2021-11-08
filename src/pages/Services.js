@@ -13,6 +13,8 @@ const Services = () => {
     const [cleaningServices, setCleaningServices] = useState([])
     const [electricianServices, setElectricianServices] = useState([])
     const [plumberServices, setPlumberServices] = useState([])
+    const [carpenterServices, setCarpenterServices] = useState([])
+    const [pestControlServices, setPestControlServices] = useState([])
     const [womenSalonServices, setWomenSalonServices] = useState([])
     const [menSalonServices, setMenSalonServices] = useState([])
     const [miscellaniousServices, setMiscellaniousServices] = useState([])
@@ -46,6 +48,8 @@ const Services = () => {
             setCleaningServices(cleaningServices => allServices.filter(eachService => eachService.serviceCategory === 'Cleaning'))
             setElectricianServices(electricianServices => allServices.filter(eachService => eachService.serviceCategory === 'Electricians'))
             setPlumberServices(plumberServices => allServices.filter(eachService => eachService.serviceCategory === 'Plumbers'))
+            setCarpenterServices(carpenterServices => allServices.filter(eachService => eachService.serviceCategory === 'Carpenters'))
+            setPestControlServices(pestControlServices => allServices.filter(eachService => eachService.serviceCategory === 'Pest Control'))
             setWomenSalonServices(womenSalonServices => allServices.filter(eachService => eachService.serviceCategory === 'Salon for Women'))
             setMenSalonServices(menSalonServices => allServices.filter(eachService => eachService.serviceCategory === 'Salon for Men'))
             setMiscellaniousServices(miscellaniousServices => allServices.filter(eachService => eachService.serviceCategory === 'Miscellanious'))
@@ -91,6 +95,10 @@ const Services = () => {
                 whichServices = electricianServices
             } else if (passedCategory === 'Plumbers') {
                 whichServices = plumberServices
+            } else if (passedCategory === 'Carpenters') {
+                whichServices = carpenterServices
+            } else if (passedCategory === 'Pest Control') {
+                whichServices = pestControlServices
             } else if (passedCategory === 'Salon for Women') {
                 whichServices = womenSalonServices
             } else if (passedCategory === 'Salon for Men') {
@@ -197,25 +205,46 @@ const Services = () => {
                 </div>
                 <div className='card-type1' id='Carpenters'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='services'>
-                            <h3>Carpenters:</h3>
-                            <p>Repairs & Fixes</p>
-                            <p>Woodwork</p>
-                            <p>Furniture Making</p>
+                        <div className='services flex-column-stretch'>
+                            <h3 className='para-type1' >Carpenters:</h3>
+                            <div className="flex-column-stretch dark-grey-container">
+                                {loading ? <Loading /> : <>
+                                    {(carpenterServices.length !== 0) ? carpenterServices.map((eachService, serviceIndex) => (
+                                        <ServiceCard
+                                            passedService={eachService}
+                                            passedIndex={serviceIndex}
+                                            showButton={!isProvider}
+                                            onAddToCart={onAddToCart}
+                                        />
+                                    )) : <div className='flex-row'>
+                                        <p className='para-type2'>No Plumber Services</p>
+                                    </div>}
+                                </>}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className='card-type1' id='Pest Control'>
                     <div className='ninetyfiveperc-container'>
-                        <div className='services'>
-                            <h3>Pest Control:</h3>
-                            <p>Cockroach & Ant Control</p>
-                            <p>Bedbugs Control</p>
-                            <p>Termite Control</p>
+                        <div className='services flex-column-stretch'>
+                            <h3 className='para-type1' >Pest Control:</h3>
+                            <div className="flex-column-stretch dark-grey-container">
+                                {loading ? <Loading /> : <>
+                                    {(pestControlServices.length !== 0) ? pestControlServices.map((eachService, serviceIndex) => (
+                                        <ServiceCard
+                                            passedService={eachService}
+                                            passedIndex={serviceIndex}
+                                            showButton={!isProvider}
+                                            onAddToCart={onAddToCart}
+                                        />
+                                    )) : <div className='flex-row'>
+                                        <p className='para-type2'>No Pest Control Services</p>
+                                    </div>}
+                                </>}
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 <div className='card-type1' id='Salon for Women'>
                     <div className='ninetyfiveperc-container'>
                         <div className='services flex-column-stretch'>
