@@ -142,16 +142,19 @@ ol {
   list-style-type: none;
 }
 
-input, textarea {
+input,
+textarea {
   font-size: 20px;
   font-family: 'Montserrat';
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 
-input[type='text'], input[type='password'] {
+input[type='text'],
+input[type='password'] {
   margin: 5px;
   padding: 10px 15px;
   background: var(--grey);
@@ -203,6 +206,10 @@ body {
   background: #e2e1e0;
   font-family: 'Google Sans', 'Montserrat', 'Segoe UI';
   font-size: 19;
+}
+
+.mv-10 {
+  margin: 10px 0 10px 0;
 }
 
 .heading-type1 {
@@ -364,7 +371,7 @@ body {
 }
 
 .card-type2 {
-  flex: 0.40;
+  flex: 0.4;
   margin: 10px auto;
   padding: 30px 20px;
   background: #fff;
@@ -557,7 +564,7 @@ body {
   justify-content: space-evenly;
 }
 
-.services h3{
+.services h3 {
   color: var(--primary-color);
 }
 
@@ -624,7 +631,8 @@ body {
   padding: 10px;
 }
 
-.login-card input[type='text'], .login-card input[type='password'] {
+.login-card input[type='text'],
+.login-card input[type='password'] {
   flex: 1;
   /* width: 400px; */
 }
@@ -650,7 +658,7 @@ body {
   text-align: center;
 }
 
-.signup-card p{
+.signup-card p {
   display: inline;
   flex: 1;
   padding: 10px;
@@ -669,7 +677,8 @@ body {
   text-align: center;
 }
 
-.signup-card input[type='text'], .signup-card input[type='password'] {
+.signup-card input[type='text'],
+.signup-card input[type='password'] {
   flex: 1.2;
   margin: 10px;
 }
@@ -684,12 +693,12 @@ body {
   margin: 10px 0;
 }
 
-.signup-description p{
+.signup-description p {
   margin: 5px 10px 0 10px;
   padding: 5px 10px 0 10px;
 }
 
-.signup-card2 p{
+.signup-card2 p {
   width: auto;
 }
 
@@ -714,6 +723,25 @@ body {
   font-size: 22px;
 }
 
+.service-image {
+  border-radius: 10px;
+  background: var(--dark-grey);
+  height: 200px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+}
+
+.final-service-image {
+  border-radius: 10px;
+}
+
+.service-description {
+  max-width: 900px;
+}
+
 .about p {
   padding: 10px;
   margin: 10px;
@@ -726,7 +754,7 @@ body {
   width: 100px;
   height: 100px;
   font-size: 20px;
-  color:#fff;
+  color: #fff;
   background: #424242;
   background-size: contain;
   background-repeat: no-repeat;

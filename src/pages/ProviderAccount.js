@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import { doc, updateDoc } from '@firebase/firestore'
-import { db } from '../firebaseInit'
+import { db, storage } from '../firebaseInit'
+import { ref, uploadBytes } from '@firebase/storage'
 import ServiceCard2 from '../components/ServiceCard2'
 import { Checkbox, FormControl, Select, MenuItem } from '@mui/material'
 import { Person, Logout, Delete } from '@mui/icons-material'
@@ -18,8 +19,10 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         serviceCategory: '',
         servicePrice: 0.0,
         serviceAvailable: true,
-        serviceProvider: ''
+        serviceProvider: '',
+        serviceImageName: '',
     })
+    const [finalServiceImageInput, setFinalServiceImageInput] = useState(null)
 
     const handleServiceInputChange = (e) => {
         setServiceInput({
@@ -28,13 +31,35 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
         })
     }
 
+    const handleServiceImageInputChange = (e) => {
+        if (e.target.files[0]) {
+            setServiceInput(serviceInput => ({
+                ...serviceInput,
+                serviceImageName: serviceInput.serviceTitle + '_' + e.target.files[0].name,
+            }))
+            setFinalServiceImageInput(finalServiceImageInput => e.target.files[0])
+            console.log('image uploaded: ', finalServiceImageInput)
+            if (finalServiceImageInput !== null) {
+                console.log('image name: ', serviceInput.serviceImageName)
+            }
+        }
+    };
+
     const onAddServiceSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
+        // Uploading the service image to firebase storage:
+        const uploadToRef = ref(storage, `serviceImages/${providerData.providerDataCompanyName}/${serviceInput.serviceImageName}`)
+        await uploadBytes(uploadToRef, finalServiceImageInput).then((snapshot) => {
+            console.log('Uploaded File Snapshot: ', snapshot);
+        })
+        // Can't directly update providerData as it doesnt immediately get the synchronous data
         const newServiceId = (providerData.providerDataServices.length) + 1
-        console.log(`newServiceId: ${newServiceId}`)
-        const newService = { ...serviceInput, serviceId: newServiceId, serviceProvider: providerData.providerDataCompanyName }
-        // Can't directly use providerData as it doesnt immediately get the synchronous data
+        const newService = {
+            ...serviceInput,
+            serviceId: newServiceId,
+            serviceProvider: providerData.providerDataCompanyName
+        }
         const finalServices = [...providerData.providerDataServices, newService]
         setProviderData(providerData => ({
             ...providerData,
@@ -54,7 +79,9 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
             serviceCategory: '',
             servicePrice: 0.0,
             serviceAvailable: true,
-            serviceProvider: ''
+            serviceProvider: '',
+            serviceImageName: '',
+            serviceImageDownloadURL: '',
         }))
         setLoading(false)
     }
@@ -155,7 +182,7 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                                 onChange={handleServiceInputChange}
                             />
                         </div>
-                        <div className="flex-row">
+                        <div className="flex-row mv-10">
                             <p>Service Category: </p>
                             <FormControl variant="filled" sx={{ m: 1, minWidth: 200 }}>
                                 <Select
@@ -175,6 +202,12 @@ const ProviderAccount = ({ providerData, setProviderData, onSignOutSubmit, onDel
                                     <MenuItem value={'Miscellanious'}>Miscellanious</MenuItem>
                                 </Select>
                             </FormControl>
+                        </div>
+                        <div className='flex-row'>
+                            <p>Upload an Image:</p>
+                            <input type='file'
+                                onChange={handleServiceImageInputChange}
+                            />
                         </div>
                         <div className="flex-row">
                             <p>Available Now</p>
