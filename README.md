@@ -8,6 +8,7 @@ A website with a primary focus on frontend and user experience which allows the 
 * React with Routing, Hooks, Context  
 * Firebase Authentication  
 * Cloud Firestore Database
+* Firebase Cloud Storage
 * Modern JavaScript conventions  
 * Custom CSS 3 styling  
 * Material UI Elements, Icons, etc.  
