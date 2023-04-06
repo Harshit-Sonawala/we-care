@@ -1,6 +1,6 @@
 # WeCare - Home Services Booking Website #
 
-A website created as a course project submission for Semester V - B.Tech IT at KJSIEIT.  
+A website created as a course project submission.  
 
 A website with a primary focus on frontend and user experience which allows the users to book home and personal care services as well as allow the service providers to connect with them.  
 
