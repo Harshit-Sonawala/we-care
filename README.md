@@ -15,7 +15,7 @@ A website with a primary focus on frontend and user experience which allows the 
 
 - - - -
 
-### Screenshots so far: ###
+### Screenshots: ###
 
 <img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/home1.jpg">  
 <img src="https://github.com/Harshit-Sonawala/we-care/blob/master/screenshots/home2.jpg">  
